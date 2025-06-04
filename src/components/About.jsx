@@ -32,7 +32,7 @@ const About = () => {
         <AnimatedTitle1
           title="Know Me"
           line="Does this worl?"
-          containerClass="mt-5 !text-black text-center"
+          containerClass="mt-5 text-center #007BFF"
         />
       </div>
 
@@ -43,7 +43,7 @@ const About = () => {
             alt="Background"
             className="absolute left-5 top-0 size-fit object-cover z-10"
           />
-          <p className="absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-gray-800 ">
+          <p className="absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-white">
             I'm <span className="font-semibold text-primary">DevKaDose</span> — the guy who jumped into a coffin on MTV Roadies Season 6
             and turned it into a career. My viral 2009 audition, with epic hair and bold vibes, didn't win the show but stole hearts and screen time.
             <br /><br />
