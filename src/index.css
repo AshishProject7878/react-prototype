@@ -310,7 +310,7 @@ body {
   .custom-video {
     width: 160vw;   
     height: 100%;  
-    margin-right: 420px;
+    margin-right: 450px;
     object-fit: fill; /* Prevent stretch */
   }
 }
