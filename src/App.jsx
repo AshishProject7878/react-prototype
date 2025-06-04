@@ -37,21 +37,22 @@ const VideoLoader = ({ onComplete }) => {
   }
 
   return (
-    <div className={`fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-500 ${isVideoEnded ? 'opacity-0' : 'opacity-100'}`}>
-      <video
-        className="w-screen h-full object-fill"
-        autoPlay
-        muted
-        playsInline
-        onEnded={handleVideoEnd}
-        onError={() => {
-          console.error('Video failed to load')
-          handleSkip() // Skip if video fails to load
-        }}
-      >
-        <source src="videos/Logo1.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div className={`custom-div fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-500 ${isVideoEnded ? 'opacity-0' : 'opacity-100'}`}>
+     <video
+      className="custom-video object-fill"
+      autoPlay
+      muted
+      playsInline
+      onEnded={handleVideoEnd}
+      onError={() => {
+        console.error('Video failed to load');
+        handleSkip();
+      }}
+    >
+      <source src="videos/Logo1.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
       
       {/* Skip Button */}
       <button

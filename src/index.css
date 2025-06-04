@@ -295,3 +295,22 @@ body {
     opacity: 0.8;
   }
 }
+
+.custom-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: fill;
+}
+
+/* Mobile view - reduce size */
+@media (max-width: 640px) {
+  .custom-div{
+    width: 200vw;
+  }
+  .custom-video {
+    width: 160vw;   
+    height: 100%;  
+    margin-right: 370px;
+    object-fit: fill; /* Prevent stretch */
+  }
+}
