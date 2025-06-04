@@ -57,7 +57,7 @@ const VideoLoader = ({ onComplete }) => {
       {/* Skip Button */}
       <button
         onClick={handleSkip}
-        className="fixed bottom-8 right-8 bg-black bg-opacity-20 backdrop-blur-sm text-white px-6 py-3 rounded-full border border-white border-opacity-30 hover:bg-opacity-30 transition-all duration-300 text-sm font-medium z-10"
+        className="skip-btn fixed bottom-8 right-8 bg-black bg-opacity-20 backdrop-blur-sm text-white px-6 py-3 rounded-full border border-white border-opacity-30 hover:bg-opacity-30 transition-all duration-300 text-sm font-medium z-10"
       >
         Skip
       </button>
