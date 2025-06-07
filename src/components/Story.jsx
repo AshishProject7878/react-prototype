@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
+import AnimatedTitle1 from "./AnimatedTitle";
 
+// Animated Staggered Text Component (unchanged)
 const StaggeredText = ({ title, containerClass }) => {
   const titleRef = useRef(null);
   const controls = useAnimation();
@@ -34,11 +36,7 @@ const StaggeredText = ({ title, containerClass }) => {
   };
 
   const wordVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      rotateX: -90,
-    },
+    hidden: { opacity: 0, y: 50, rotateX: -90 },
     visible: {
       opacity: 1,
       y: 0,
@@ -69,165 +67,98 @@ const StaggeredText = ({ title, containerClass }) => {
             fontWeight: "900",
           }}
         >
-          {word}&nbsp;
+          {word} 
         </motion.span>
       ))}
     </motion.div>
   );
 };
 
-const PodcastCard = ({ podcast, index }) => {
+// Video Card Component (unchanged)
+const VideoCard = ({ podcast, index }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
-    
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
     const rotateX = ((y - centerY) / centerY) * -10;
     const rotateY = ((x - centerX) / centerX) * 10;
-    
     cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
   };
 
   const handleMouseLeave = () => {
     if (cardRef.current) {
-      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     }
   };
 
   return (
     <motion.div
       ref={cardRef}
-      className="podcast-card relative group cursor-pointer"
+      className="video-card relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg h-[450px] lg:h-[400px] max-w-[400px] lg:max-w-[450px] mx-auto"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ 
-        duration: 0.8, 
-        delay: index * 0.2,
-        ease: [0.6, 0.01, 0.05, 0.95]
-      }}
+      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
       viewport={{ once: true, amount: 0.3 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={() => setIsHovered(true)}
-      
-      style={{ 
-        transition: 'transform 0.1s ease-out',
-        transformStyle: 'preserve-3d'
+      style={{
+        transition: "transform 0.1s ease-out",
+        transformStyle: "preserve-3d",
+        backgroundColor: "#1C1C1C",
+        border: "1px solid #333",
       }}
     >
-      {/* Glowing Background */}
-      <motion.div
-        className="absolute -inset-1 rounded-2xl blur opacity-25"
-        style={{ 
-          background: 'linear-gradient(45deg, #007BFF, #00E6E6, #FF4C29)'
-        }}
-        animate={{
-          opacity: isHovered ? 0.5 : 0.25,
-          scale: isHovered ? 1.05 : 1
-        }}
-        transition={{ duration: 0.3 }}
-      />
-      
-      {/* Main Card */}
-      <div 
-        className="relative backdrop-blur-xl rounded-2xl p-6 overflow-hidden"
-        style={{ 
-          backgroundColor: 'rgba(28, 28, 28, 0.8)',
-          borderColor: 'rgba(255, 255, 255, 0.2)',
-          border: '1px solid'
-        }}
-      >
-        {/* Animated Background Gradients */}
-        <div className="absolute inset-0 opacity-30">
-          <motion.div
-            className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl"
-            style={{ backgroundColor: '#007BFF' }}
-            animate={{
-              x: isHovered ? 20 : 0,
-              y: isHovered ? -10 : 0,
-              scale: isHovered ? 1.2 : 1
-            }}
-            transition={{ duration: 0.6 }}
-          />
-          <motion.div
-            className="absolute bottom-0 right-0 w-24 h-24 rounded-full blur-2xl"
-            style={{ backgroundColor: '#00E6E6' }}
-            animate={{
-              x: isHovered ? -15 : 0,
-              y: isHovered ? 10 : 0,
-              scale: isHovered ? 1.3 : 1
-            }}
-            transition={{ duration: 0.8 }}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          {/* Video Container */}
-          <motion.div
-            className="aspect-video rounded-xl overflow-hidden mb-6 bg-gray-900"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            <iframe
-              src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
-              title={podcast.title}
-              className="w-full h-full"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </motion.div>
-
-          {/* Episode Info */}
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
-            viewport={{ once: true }}
-          >
-            <span className="inline-block px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full text-blue-300 text-sm font-medium mb-3">
-              Episode {podcast.episode}
-            </span>
-            <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
-              {podcast.title}
-            </h3>
-            <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
-              {podcast.description}
-            </p>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            className="flex items-center justify-between text-sm text-gray-400"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex items-center space-x-4">
-              <span className="flex items-center space-x-1">
-                <span>🎧</span>
-                <span>{podcast.duration}</span>
-              </span>
-              
-            </div>
-           
-          </motion.div>
-        </div>
-
-        {/* Hover Effect Overlay */}
+      <div className="relative backdrop-blur-xl rounded-2xl p-4 flex flex-col h-full">
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 rounded-2xl"
+          className="rounded-xl overflow-hidden mb-4 aspect-[16/9] flex-shrink-0 w-full"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          <iframe
+            src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
+            title={podcast.title}
+            className="w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </motion.div>
+        <motion.div
+          className="flex-grow min-h-[120px]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
+            {podcast.title}
+          </h3>
+          <p className="text-gray-400 text-xs leading-relaxed line-clamp-4">
+            {podcast.description}
+          </p>
+        </motion.div>
+        <motion.div
+          className="flex items-center justify-between text-xs text-gray-500 mt-2"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
+          viewport={{ once: true }}
+        >
+          <span className="flex items-center space-x-1">
+            <span>🎧</span>
+            <span>{podcast.duration}</span>
+          </span>
+          <span>Video</span>
+        </motion.div>
+        <motion.div
+          className="absolute inset-0 bg-white/5 opacity-0 rounded-2xl pointer-events-none"
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         />
@@ -236,104 +167,199 @@ const PodcastCard = ({ podcast, index }) => {
   );
 };
 
+// Short Card Component (modified for mobile responsiveness)
+const ShortCard = ({ podcast, index }) => {
+  const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    }
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className="short-card relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg h-[480px] sm:h-[440px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
+      initial={{ opacity: 0, y: 100, rotateX: -45 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
+      viewport={{ once: true, amount: 0.3 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      style={{
+        transition: "transform 0.1s ease-out",
+        transformStyle: "preserve-3d",
+        backgroundColor: "#1C1C1C",
+        border: "1px solid #333",
+      }}
+    >
+      <div className="relative backdrop-blur-xl rounded-2xl p-3 flex flex-col h-full">
+        <motion.div
+          className="rounded-xl overflow-hidden mb-3 aspect-[9/16] flex-shrink-0 w-full"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          <iframe
+            src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
+            title={podcast.title}
+            className="w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </motion.div>
+        <motion.div
+          className="flex-grow min-h-[100px]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-sm font-bold text-white mb-1 line-clamp-2">
+            {podcast.title}
+          </h3>
+          <p className="text-gray-400 text-[10px] leading-relaxed line-clamp-4">
+            {podcast.description}
+          </p>
+        </motion.div>
+        <motion.div
+          className="flex items-center justify-between text-[10px] text-gray-500 mt-1"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
+          viewport={{ once: true }}
+        >
+          <span>Short</span>
+        </motion.div>
+        <motion.div
+          className="absolute inset-0 bg-white/5 opacity-0 rounded-2xl pointer-events-none"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
+    </motion.div>
+  );
+};
+
+// Main Section (modified for mobile visibility of Shorts)
 const PodcastSection = () => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
+  const [activeTab, setActiveTab] = useState("videos");
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-  // Replace these videoId values with your actual YouTube video IDs
-  // To get the video ID: from URL https://www.youtube.com/watch?v=YOUR_VIDEO_ID
-  // Just copy the part after "v=" 
   const podcasts = [
     {
-      videoId: "GmSJ76YUI3o", // 🔴 REPLACE: Paste your first video ID here
+      videoId: "GmSJ76YUI3o",
       episode: "01",
       title: "THE RETURN OF DEVARSHI PATEL",
-      description: "Devarshi Patel, is an ex Roadies contestant. The man with the most entertaining , viral and remembered Roadies Audition is back with his Motivational talks.",
+      description:
+        "Devarshi Patel, is an ex Roadies contestant. The man with the most entertaining, viral and remembered Roadies Audition is back with his Motivational talks.",
       duration: "55:22",
+      category: "video",
     },
     {
-      videoId: "XtUFYzY3sW8", // 🔴 REPLACE: Paste your second video ID here  
-      episode: "02", 
+      videoId: "XtUFYzY3sW8",
+      episode: "02",
       title: "Devarshi Patel | Roadies 6 Fame",
-      description: "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
+      description:
+        "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
       duration: "27:59",
+      category: "video",
     },
     {
-      videoId: "Kkq5MRHH-Wk", // 🔴 REPLACE: Paste your third video ID here
+      videoId: "iiitpyNoW_g",
       episode: "03",
+      title: "Devarshi Patel Talking about AIM",
+      category: "short",
+    },
+    {
+      videoId: "9mFXHFeEXso",
+      title: "Devarshi Patel gets reality check",
+      category: "short",
+    },
+    {
+      videoId: "fnevoGW25FE",
+      title: "Devarshi Patel Podcast (Roadies Fame)",
+      category: "short",
+    },
+    {
+      videoId: "eta5w6tq8P8",
+      title: "Devarshi Patel from Roadies 6 with a very inspirational and motivational message",
+      category: "short",
+    },
+    {
+      videoId: "lmsmMd_8N4s",
+      title: "No One can Replace Devarshi | Raghu Ram",
+      category: "short",
+    },
+    {
+      videoId: "tt6hIwcIOsY",
+      title: "Devarshi Patel",
+      category: "short",
+    },
+    {
+      videoId: "RsM5vrrBiTU",
+      title: "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
+      category: "short",
+    },
+    {
+      videoId: "wy64xEoAG-M",
+      title: "Devarshi patel talks on how to stick to a positive path.",
+      category: "short",
+    },
+    {
+      videoId: "sQA8zxSZkh8",
+      title: "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
+      category: "short",
+    },
+    {
+      videoId: "Kkq5MRHH-Wk",
+      episode: "04",
       title: "In Conversation with Devarshi...",
-      description: "A detail conversation with EX-Roadies #devarshipatel regarding his journey in Roadies , his current life , His experiences and lot more.",
+      description:
+        "A detail conversation with EX-Roadies #devarshipatel regarding his journey in Roadies , his current life , His experiences and lot more.",
       duration: "48:27",
-    }
+      category: "video",
+    },
   ];
 
-  return (
-    <div 
-      ref={sectionRef}
-      id="podcast" 
-      className="min-h-screen w-full relative overflow-hidden"
-      style={{ 
-        background: 'linear-gradient(135deg, #1C1C1C 0%, #000000 50%, #1C1C1C 100%)',
-        color: '#fff'
-      }}
-    >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-20">
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl"
-          style={{ backgroundColor: '#007BFF' }}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl"
-          style={{ backgroundColor: '#00E6E6' }}
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        <motion.div 
-          className="absolute top-3/4 left-1/2 w-48 h-48 rounded-full blur-3xl"
-          style={{ backgroundColor: '#FF4C29' }}
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.25, 0.45, 0.25],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4
-          }}
-        />
-      </div>
+  const videos = podcasts.filter((podcast) => podcast.category === "video");
+  const shorts = podcasts.filter((podcast) => podcast.category === "short");
 
-      <motion.div 
+  return (
+    <div
+      ref={sectionRef}
+      id="podcast"
+      className="min-h-screen w-full relative overflow-hidden"
+      style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
+    >
+      <motion.div
         className="flex size-full flex-col items-center py-20 pb-24 relative z-10"
         style={{ y, opacity }}
       >
         <div className="relative size-full max-w-7xl mx-auto px-4">
-          {/* Header Section */}
+          {/* Header (unchanged) */}
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
@@ -341,40 +367,95 @@ const PodcastSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <StaggeredText
-              title="Featured Podcasts"
-              containerClass="text-5xl md:text-7xl font-black bg-gradient-to-r from-black via-blue-500 to-black bg-clip-text text-transparent mb-6"
-            />
+            <div className="relative flex flex-col items-center gap-5">
+              <AnimatedTitle1
+                title="Featured Podcasts"
+                line="Does this worl?"
+                containerClass="mb-5 text-center"
+                style={{
+                  marginTop: "-30px",
+                }}
+              />
+            </div>
             <motion.p
-              className="text-xl max-w-3xl mx-auto leading-relaxed"
-              style={{ color: '#6C757D' }}
+              className="text-xl max-w-3xl mx-auto leading-relaxed text-gray-400"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Dive deep into conversations about storytelling, branding, and digital innovation. 
+              Dive deep into conversations about storytelling, branding, and digital innovation.
               Each episode brings fresh insights and actionable strategies from industry leaders.
             </motion.p>
           </motion.div>
 
-          {/* Podcast Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {podcasts.map((podcast, index) => (
-              <PodcastCard key={index} podcast={podcast} index={index} />
-            ))}
+          {/* Tabs (unchanged) */}
+          <div className="flex justify-center mb-8">
+            <button
+              className={`px-4 py-2 mx-2 text-lg font-semibold rounded-lg transition-colors ${
+                activeTab === "videos"
+                  ? "bg-white text-black"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("videos")}
+            >
+              Videos
+            </button>
+            <button
+              className={`px-4 py-2 mx-2 text-lg font-semibold rounded-lg transition-colors ${
+                activeTab === "shorts"
+                  ? "bg-white text-black"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("shorts")}
+            >
+              Shorts
+            </button>
           </div>
 
-          {/* Call to Action */}
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
+          {/* Videos Section (unchanged) */}
+          {activeTab === "videos" && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-16"
+            >
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Videos</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
+                {videos.map((podcast, index) => (
+                  <motion.div
+                    key={index}
+                    className="rounded-2xl overflow-hidden flex items-center justify-center"
+                  >
+                    <VideoCard podcast={podcast} index={index} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
-          </motion.div>
+          {/* Shorts Section (modified for mobile) */}
+          {activeTab === "shorts" && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-16"
+            >
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Shorts</h3>
+              <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[440px]">
+                {shorts.map((podcast, index) => (
+                  <motion.div
+                    key={index}
+                    className="rounded-2xl overflow-hidden flex items-center justify-center"
+                  >
+                    <ShortCard podcast={podcast} index={index} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </div>

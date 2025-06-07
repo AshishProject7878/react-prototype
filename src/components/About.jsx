@@ -12,7 +12,7 @@ const About = () => {
       scrollTrigger: {
         trigger: "#clip",
         start: "center center",
-        end: "+=900 center",
+        end: "+=1200 bottom",
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
@@ -32,22 +32,22 @@ const About = () => {
         <AnimatedTitle1
           title="Know Me"
           line="Does this worl?"
-          containerClass="mt-5 text-center #007BFF"
+          containerClass="mt-5 fanky-text"
         />
       </div>
 
       <div className="h-dvh w-screen" id="clip">
-        <div className="mask-clip-path about-image flex-center">
+        <div className="AboutFlex mask-clip-path about-image flex-center">
           <img
             src="img/dp.png"
             alt="Background"
             className="absolute left-5 top-0 size-fit object-cover z-10"
           />
-          <p className="absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-white">
-            I'm <span className="font-semibold text-primary">DevKaDose</span> — the guy who jumped into a coffin on MTV Roadies Season 6
+          <p className="AboutFlexP absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-white">
+            I'm <span className="font-semibold text-primary">Devarshi</span> — the guy who jumped into a coffin on MTV Roadies Season 6
             and turned it into a career. My viral 2009 audition, with epic hair and bold vibes, didn't win the show but stole hearts and screen time.
             <br /><br />
-            That sparked my journey as a <strong>Motivational Comedian</strong>, <strong>Digital Storyteller</strong>, and <strong>Brand Humanizer</strong>.
+            That sparked my journey as a <strong>Inspirational Comedian</strong>, <strong>Actor</strong>, and <strong>Influencer</strong>.
             I turn pain, awkward moments, and funny failures into growth for people, teams, and businesses.
             <br /><br />
             From 5-minute talks that ignite rooms to content your cousin, boss, or grandma vibes with, my motto is:

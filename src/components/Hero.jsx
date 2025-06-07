@@ -1,188 +1,114 @@
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
-import { useEffect, useRef, useState } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import React from 'react';
 
 const Hero = () => {
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [hasClicked, setHasClicked] = useState(false);
-
-  const [loading, setLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState(0);
-
-  const totalVideos = 4;
-  const nextVdRef = useRef(null);
-
-  const handleVideoLoad = () => {
-    setLoadedVideos((prev) => prev + 1);
-  };
-
-  useEffect(() => {
-    if (loadedVideos === totalVideos - 1) {
-      setLoading(false);
-    }
-  }, [loadedVideos]);
-
-  useGSAP(
-    () => {
-      if (hasClicked) {
-        gsap.set("#next-video", { visibility: "visible" });
-        gsap.to("#next-video", {
-          transformOrigin: "center center",
-          scale: 1,
-          width: "100%",
-          height: "100%",
-          duration: 1,
-          ease: "power1.inOut",
-          onStart: () => nextVdRef.current.play(),
-        });
-        gsap.from("#current-video", {
-          transformOrigin: "center center",
-          scale: 0,
-          duration: 1.5,
-          ease: "power1.inOut",
-        });
-      }
-    },
-    {
-      dependencies: [currentIndex],
-      revertOnUpdate: true,
-    }
-  );
-
-  useGSAP(() => {
-    gsap.set("#video-frame", {
-      clipPath: "circle(20% at 50% 50%)",
-      filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))",
-    });
-    gsap.to("#video-frame", {
-      clipPath: "circle(100% at 50% 50%)",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: "#video-frame",
-        start: "center center",
-        end: "bottom center",
-        scrub: true,
-      },
-    });
-  });
-
-  const getVideoSrc = (index) => `videos/Logo.mp4`;
-
   return (
-    <div className="relative h-dvh w-screen overflow-x-hidden">
-      {/* {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
-          <div className="wrapper">
-            <div className="circle"></div>
-            <div className="circle"></div>
-            <div className="circle"></div>
-            <div className="shadow"></div>
-            <div className="shadow"></div>
-            <div className="shadow"></div>
-          </div>
-        </div>
-      )} */}
-
-      <div
-        id="video-frame"
-        className="relative z-10 h-dvh w-screen overflow-hidden rounded-full bg-white"
-      >
-        <div>
-          <div className="mask-clip-path absolute-center absolute z-50 size-64 overflow-hidden rounded-full">
-          </div>
-          <video
-            ref={nextVdRef}
-            src={getVideoSrc(currentIndex)}
-            loop
-            muted
-            id="next-video"
-            className="absolute-center invisible absolute z-20 size-32 object-cover object-center"
-            onLoadedData={handleVideoLoad}
-            onError={(e) => console.error("Next video failed to load:", e)}
-          />
-          <video
-            id="current-video"
-            src={getVideoSrc(
-              currentIndex === totalVideos - 1 ? 1 : currentIndex
-            )}
-            autoPlay
-            loop
-            muted
-            className="absolute-center absolute z-10 size-80 object-cover object-center"
-            onLoadedData={handleVideoLoad}
-            onError={(e) => console.error("Current video failed to load:", e)}
-          />
-        </div>
-
-        <h1
-          className=" hero-heading absolute bottom-5 right-5 z-40 text-cyan-500"
-          style={{
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: "90px",
-            fontWeight: "bold",
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Top Left - Brand Name */}
+      <div className="topSection absolute top-36 left-12 z-20">
+        {/* <h1 
+          className="text-4xl font-bold tracking-wide"
+          style={{ 
+            color: '#00E6E6',
+            fontFamily: "'Poppins', sans-serif"
           }}
         >
-          <b>DEVkaDOSE</b>
-        </h1>
+          <span className="funky-text-4 text-6xl">DEV</span>
+          <span className="funky-text">ka</span>
+          <span
+            className="funky-text-4 text-6xl"
+            style={{
+              backgroundColor: '#FF4C29',
+              padding: '10px 20px',
+              clipPath: 'polygon(10% 0%, 100% 5%, 90% 100%, 0% 100%)',
+              display: 'inline-block',
+              color: 'white',
+            }}
+          >
+            DOSE
+          </span>
+        </h1> */}
+        <img
+        className='w-60 h-auto LogoImg'
+        src="img/lgwh.png" alt=""/>
+        <p className="mt-4 max-w-sm text-white font-medium">
+          Let’s catch up! If you have ideas, projects, or just want to chat about creativity and coding, I’m all ears.
+        </p>
 
-        <div className="absolute left-0 top-0 z-40 size-full">
-          <div className="mt-24 px-5 sm:px-10">
-            <h1
-              className="mt-32 hero-heading #1C1C1C"
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: "90px",
-                fontWeight: "bold",
-              }}
-            >
-              <b>Devarshi Patel</b>
-            </h1>
+        <button
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+              contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="mt-4 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
+          style={{ backgroundColor: '#FF4C29' }}
+        >
+          Let’s Catch Up?
+        </button>
+      </div>
 
-            <p className="font-robert-regular #1C1C1C">
-              Motivational Comedian, Digital Storyteller, and Brand Humanizer. <br />
-              Turning pain, awkward moments, and funny failures into growth for people, teams, and businesses.
-            </p>
-          </div>
+
+      {/* Top Right - Logo */}
+      {/* <div className="absolute top-36 right-12 z-20">
+        <div 
+          className="w-44 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
+        >
+          <img src='img/lgwh.png' alt='Logo'/>
+        </div>
+      </div> */}
+
+      {/* Bottom Right - Text Content */}
+      <div className="bottomRight absolute bottom-8 right-8 z-20 max-w-md">
+        <h2 
+          className="KnowName text-2xl font-bold mb-4"
+          style={{ 
+            color: '#fff',
+            fontFamily: "'Poppins', sans-serif"
+          }}
+        >
+          Devarshi Patel
+        </h2>
+        <p 
+          className="knowText text-base leading-relaxed mb-4"
+          style={{ color: '#6C757D' }}
+        >
+          Inspirational Comedian, Actor, and Influencer. 
+          Translation? I use real-life pain, awkward moments, and funny failures to spark growth — in people, teams, and businesses.
+        </p>
+        <div className="mt-6">
+        <button
+          className="animated-gradient hover:opacity-90 hover:scale-105 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300"
+          style={{ backgroundColor: '#FF4C29' }}
+          onClick={() => {
+            const section = document.getElementById('about');
+            if (section) {
+              section.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
+          Know More
+        </button>
         </div>
       </div>
 
-      <h1
-        className="hero-heading text-white"
-        style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: "90px",
-          fontWeight: "bold",
-          position: "absolute",
-          top: "18%",
-          left: "2.5rem",
-        }}
-      >
-        <b>Devarshi Patel</b>
-      </h1>
-      <p className="font-robert-regular text-white"
-      style={{
-          fontSize: "16px",
-          fontWeight: "bold",
-          position: "absolute",
-          top: "13.9rem",
-          left: "2.5rem",
-        }}>
-        Motivational Comedian, Digital Storyteller, and Brand Humanizer. <br />
-        Turning pain, awkward moments, and funny failures into growth for people, teams, and businesses.
-      </p>
-      <h1
-        className=" hero-heading absolute bottom-5 right-5 text-white"
-        style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: "90px",
-          fontWeight: "bold",
-        }}
-      >
-        <b>DEVkaDOSE</b>
-      </h1>
+      {/* Bottom Center - Image */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="relative">
+          {/* Placeholder for actual image */}
+          <div 
+            className="w-max h-96 rounded-t-full flex items-end justify-center text-white text-lg font-medium"
+          >
+            <div className="bottom-image-section text-center">
+                <img src='img/dp2.png' alt="Devarshi's Image"/>
+            </div>
+          </div>
+          
+          {/* Decorative elements */}
+        </div>
+      </div>
+
+      {/* Background decorative elements */}
     </div>
   );
 };

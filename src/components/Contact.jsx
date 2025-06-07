@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import AnimatedTitle1 from "./AnimatedTitle";
 
 const StaggeredText = ({ title, containerClass }) => {
   const titleRef = useRef(null);
@@ -63,8 +65,9 @@ const StaggeredText = ({ title, containerClass }) => {
           key={index}
           variants={wordVariants}
           className="inline-block mr-2"
+          style={{ color: '#fff' }}
         >
-          {word} 
+          {word}
         </motion.span>
       ))}
     </motion.div>
@@ -74,14 +77,21 @@ const StaggeredText = ({ title, containerClass }) => {
 const Contact = () => {
   const frameRef = useRef(null);
   const formRef = useRef(null);
+  const quickMessageRef = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
+    quickMessage: "",
+    quickEmail: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
+
+  useEffect(() => {
+    emailjs.init("7E85Be-mzfn5NmnlF"); // Your EmailJS Public Key
+  }, []);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -99,7 +109,6 @@ const Contact = () => {
     const rotateX = ((yPos - centerY) / centerY) * -5;
     const rotateY = ((xPos - centerX) / centerX) * 5;
 
-    // Using CSS transforms instead of GSAP for React compatibility
     element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     element.style.transition = "transform 0.3s ease-out";
   };
@@ -122,18 +131,101 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setSubmitStatus("error_empty");
+      setTimeout(() => setSubmitStatus(""), 3000);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus("error_invalid_email");
+      setTimeout(() => setSubmitStatus(""), 3000);
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      console.log("Sending main form with:", {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        reply_to: formData.email,
+      });
+
+      await emailjs.send(
+        "service_bqzf4o6",
+        "template_u8gou5r",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          reply_to: formData.email,
+        }
+      );
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      
-      setTimeout(() => {
-        setSubmitStatus("");
-      }, 3000);
-    }, 2000);
+      setFormData({ name: "", email: "", subject: "", message: "", quickMessage: "", quickEmail: "" });
+    } catch (error) {
+      console.error("EmailJS error:", error.text || error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus(""), 3000);
+    }
+  };
+
+  const handleQuickMessageSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.quickMessage.trim()) {
+      setSubmitStatus("error_empty");
+      setTimeout(() => setSubmitStatus(""), 3000);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const quickEmail = formData.quickEmail.trim();
+    if (quickEmail && !emailRegex.test(quickEmail)) {
+      setSubmitStatus("error_invalid_email");
+      setTimeout(() => setSubmitStatus(""), 3000);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      console.log("Sending quick message with:", {
+        from_name: "Anonymous",
+        from_email: "ashishproject78782@gmail.com",
+        subject: "Quick Message from Website",
+        message: formData.quickMessage,
+        quick_email: quickEmail || "Not provided",
+        reply_to: quickEmail || "ashishproject78782@gmail.com",
+      });
+
+      await emailjs.send(
+        "service_bqzf4o6",
+        "template_u8gou5r", // Replace with your EmailJS Template ID
+        {
+          from_name: "Anonymous",
+          from_email: "ashishproject78782@gmail.com",
+          subject: "Quick Message from Website",
+          message: formData.quickMessage,
+          quick_email: quickEmail || "Not provided",
+          reply_to: quickEmail || "ashishproject78782@gmail.com",
+        }
+      );
+      setSubmitStatus("success_quick"); // Differentiate quick message success
+      setFormData(prev => ({ ...prev, quickMessage: "", quickEmail: "" }));
+    } catch (error) {
+      console.error("EmailJS Quick Message error:", error.text || error);
+      setSubmitStatus("error_quick"); // Differentiate quick message error
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus(""), 3000);
+    }
   };
 
   const inputVariants = {
@@ -165,124 +257,45 @@ const Contact = () => {
     <div 
       id="contact"
       className="min-h-screen relative overflow-hidden"
-      style={{
-        background: `linear-gradient(135deg, #000000 0%, #1C1C1C 50%, #000000 100%)`
-      }}
+      style={{ backgroundColor: "#1C1C1C" }}
     >
-
-      {/* Background Effects */}
-      <div className="absolute inset-0 opacity-20">
-        {/* Animated gradient orbs */}
-        <div 
-          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
-          style={{
-            background: `radial-gradient(circle, #007BFF 0%, transparent 70%)`,
-            top: '10%',
-            left: '10%',
-            animation: 'float 6s ease-in-out infinite'
-          }}
-        />
-        
-        <div 
-          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
-          style={{
-            background: `radial-gradient(circle, #00E6E6 0%, transparent 70%)`,
-            top: '60%',
-            right: '10%',
-            animation: 'float 8s ease-in-out infinite reverse'
-          }}
-        />
-        
-        <div 
-          className="absolute w-72 h-72 rounded-full blur-3xl animate-pulse"
-          style={{
-            background: `radial-gradient(circle, #FF4C29 0%, transparent 70%)`,
-            bottom: '20%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            animation: 'float 7s ease-in-out infinite'
-          }}
-        />
-      </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-      `}</style>
-
       <div className="relative z-10 container mx-auto px-4 py-16">
-        <StaggeredText
-          title="Let's Catch Up?"
-          containerClass="text-6xl md:text-8xl font-bold text-center mb-16 bg-gradient-to-r from-black via-blue-500 to-black bg-clip-text text-transparent"
-          style={{ color: '#fff' }}
-        />
+        <div className="relative mb-8 flex flex-col items-center gap-5">
+          <AnimatedTitle1
+            title="Let's Catch Up? 🍵"
+            containerClass="text-center"
+            style={{ marginTop: "-30px" }}
+          />
+        </div>
 
-          {/* Contact Form Container */}
-          <motion.div
-            ref={frameRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="max-w-6xl mx-auto relative"
+        <motion.div
+          ref={frameRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="max-w-6xl mx-auto relative"
+          style={{ position: "relative" }}
+        >
+          <div 
+            className="relative p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-lg border"
+            style={{
+              backgroundColor: "#2c2c2c",
+              borderColor: "#007BFF"
+            }}
           >
-            <div 
-              className="relative p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-lg border border-opacity-20"
-              style={{
-                background: `linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(0, 123, 255, 0.1) 50%, rgba(0, 230, 230, 0.1) 100%)`,
-                borderColor: '#007BFF'
-              }}
-            >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div className="space-y-8">
+                <motion.div
+                  variants={inputVariants}
+                  custom={0}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <p className="text-lg leading-relaxed" style={{ color: '#aaa' }}>
+                    Ready to transform your story into something extraordinary? Let's create magic together.
+                  </p>
+                </motion.div>
 
-              {/* Decorative Elements */}
-              <div 
-                className="absolute -top-6 -left-6 w-24 h-24 rounded-full opacity-60 blur-sm"
-                style={{ background: `linear-gradient(45deg, #007BFF, #00E6E6)` }}
-              />
-              
-              <div 
-                className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full opacity-40 blur-sm"
-                style={{ background: `linear-gradient(45deg, #FF4C29, #007BFF)` }}
-              />
-              
-              <div 
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-5 blur-3xl pointer-events-none"
-                style={{ background: `radial-gradient(circle, #00E6E6 0%, transparent 70%)` }}
-              />
-
-              <motion.form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                variants={formVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-              >
-
-                {/* Left Side - Contact Info */}
-                <div className="space-y-8">
-                  <motion.div
-                    variants={inputVariants}
-                    custom={0}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    
-                    <StaggeredText
-                      title="Get in Touch"
-                      containerClass="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-blue-500 to-blue-300 text-transparent bg-clip-text"
-                    />
-                    
-                    <p 
-                      className="text-lg leading-relaxed"
-                      style={{ color: '#6C757D' }}
-                    >
-                      Ready to transform your story into something extraordinary? Let's create magic together.
-                    </p>
-                    
-                  </motion.div>
-
-                  <div className="space-y-6">
+                <div className="space-y-6">
                   {[
                     { icon: "📧", label: "Email", value: "devarshi@devkadose.com" },
                     { icon: "📱", label: "Phone", value: "+91 9978440857" },
@@ -290,7 +303,7 @@ const Contact = () => {
                       icon: "🌍",
                       label: "LinkedIn",
                       value: "Devarshi Patel (DEVkaDOSE)",
-                      href: "https://www.linkedin.com/in/devarshi-patel-devkadose/", 
+                      href: "https://www.linkedin.com/in/devarshi-patel-devkadose/",
                     },
                   ].map((item, index) => (
                     <motion.div
@@ -299,41 +312,137 @@ const Contact = () => {
                       custom={index + 1}
                       initial="hidden"
                       animate="visible"
-                      className="flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105"
-                      style={{ 
-                        background: `linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 230, 230, 0.1) 100%)`,
-                        border: `1px solid rgba(0, 123, 255, 0.2)`
+                      className="flex items-center space-x-4 p-4 rounded-xl border"
+                      style={{
+                        backgroundColor: "#1C1C1C",
+                        borderColor: "#444",
+                        color: '#fff'
                       }}
                     >
                       <span className="text-2xl">{item.icon}</span>
                       <div>
-                        <p 
-                          className="font-semibold"
-                          style={{ color: '#fff' }}
-                        >
-                          {item.label}
-                        </p>
+                        <p className="font-semibold">{item.label}</p>
                         {item.href ? (
-                          <a 
-                            href={item.href} 
-                            className="hover:underline transition-colors duration-300"
-                            style={{ color: '#00E6E6' }}
-                          >
+                          <a href={item.href} style={{ color: "#00E6E6" }} className="hover:underline">
                             {item.value}
                           </a>
                         ) : (
-                          <p style={{ color: '#6C757D' }}>
-                            {item.value}
-                          </p>
+                          <p style={{ color: "#aaa" }}>{item.value}</p>
                         )}
                       </div>
                     </motion.div>
                   ))}
                 </div>
 
-                </div>
+                {/* Moved quick message form outside main form */}
+                <motion.div
+                  variants={formVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="mt-6"
+                >
+                  <motion.div
+                    variants={inputVariants}
+                    custom={4}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <label className="block text-sm font-medium mb-2 text-white">
+                      Feeling lazy? Drop a quick message!
+                    </label>
+                    <form ref={quickMessageRef} onSubmit={handleQuickMessageSubmit}>
+                      <div className="space-y-4">
+                        <input
+                          type="email"
+                          name="quickEmail"
+                          value={formData.quickEmail}
+                          onChange={handleInputChange}
+                          placeholder="Your email (optional)"
+                          className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="text"
+                            name="quickMessage"
+                            value={formData.quickMessage}
+                            onChange={handleInputChange}
+                            placeholder="Quick message..."
+                            className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                          />
+                          <motion.button
+                            type="submit"
+                            disabled={isSubmitting}
+                            variants={inputVariants}
+                            custom={5}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </motion.button>
+                        </div>
+                      </div>
+                    </form>
+                    {submitStatus === "error_empty" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
+                      >
+                        Please enter a message before sending!
+                      </motion.div>
+                    )}
+                    {submitStatus === "error_invalid_email" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
+                      >
+                        Please enter a valid email address!
+                      </motion.div>
+                    )}
+                    {submitStatus === "success_quick" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#00E6E6] border border-[#00E6E6] bg-[#1C1C1C] mt-4"
+                      >
+                        Quick message sent successfully!
+                      </motion.div>
+                    )}
+                    {submitStatus === "error_quick" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
+                      >
+                        Failed to send quick message. Please try again.
+                      </motion.div>
+                    )}
+                  </motion.div>
+                </motion.div>
+              </div>
 
-                {/* Right Side - Form */}
+              <motion.form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                variants={formVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 <div className="space-y-6">
                   {[
                     { name: "name", label: "Your Name", type: "text", placeholder: "John Doe" },
@@ -347,12 +456,7 @@ const Contact = () => {
                       initial="hidden"
                       animate="visible"
                     >
-                      <label 
-                        className="block text-sm font-medium mb-2"
-                        style={{ color: '#fff' }}
-                      >
-                        {field.label}
-                      </label>
+                      <label className="block text-sm font-medium mb-2 text-white">{field.label}</label>
                       <input
                         type={field.type}
                         name={field.name}
@@ -360,12 +464,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         placeholder={field.placeholder}
                         required
-                        className="w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:outline-none focus:scale-105"
-                        style={{
-                          background: `linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(0, 123, 255, 0.1) 100%)`,
-                          borderColor: '#007BFF',
-                          color: '#fff'
-                        }}
+                        className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
                       />
                     </motion.div>
                   ))}
@@ -376,12 +475,7 @@ const Contact = () => {
                     initial="hidden"
                     animate="visible"
                   >
-                    <label 
-                      className="block text-sm font-medium mb-2"
-                      style={{ color: '#fff' }}
-                    >
-                      Message
-                    </label>
+                    <label className="block text-sm font-medium mb-2 text-white">Message</label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -389,16 +483,10 @@ const Contact = () => {
                       placeholder="Tell me about your project..."
                       rows={6}
                       required
-                      className="w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:outline-none focus:scale-105 resize-none"
-                      style={{
-                        background: `linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(0, 123, 255, 0.1) 100%)`,
-                        borderColor: '#007BFF',
-                        color: '#fff'
-                      }}
+                      className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white resize-none"
                     />
                   </motion.div>
 
-                  {/* Submit Button */}
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
@@ -408,85 +496,91 @@ const Contact = () => {
                     animate="visible"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{
-                      background: `linear-gradient(135deg, #007BFF 0%, #00E6E6 50%, #FF4C29 100%)`,
-                      color: '#fff'
-                    }}
+                    className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
+                    style={{ backgroundColor: '#FF4C29' }}
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center space-x-2">
-                        <div 
-                          className="w-5 h-5 border-2 rounded-full animate-spin"
-                          style={{ 
-                            borderColor: '#fff',
-                            borderTopColor: 'transparent'
-                          }}
-                        />
+                        <div className="w-5 h-5 border-2 rounded-full animate-spin border-white border-t-transparent" />
                         <span>Sending...</span>
                       </div>
                     ) : (
-                      "Send Message"
+                      <span>Let’s Catch Up?</span>
                     )}
                   </motion.button>
 
-                  {/* Success Message */}
                   {submitStatus === "success" && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="p-4 rounded-xl text-center font-medium"
-                      style={{
-                        background: `linear-gradient(135deg, rgba(0, 230, 230, 0.2) 0%, rgba(0, 123, 255, 0.2) 100%)`,
-                        color: '#00E6E6',
-                        border: `1px solid #00E6E6`
-                      }}
+                      className="p-4 rounded-xl text-center font-medium text-[#00E6E6] border border-[#00E6E6] bg-[#1C1C1C]"
                     >
                       Message sent successfully! I'll get back to you soon.
                     </motion.div>
                   )}
+                  {submitStatus === "error" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                    >
+                      Failed to send message. Please try again later.
+                    </motion.div>
+                  )}
+                  {submitStatus === "error_empty" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                    >
+                      Please fill out all required fields!
+                    </motion.div>
+                  )}
+                  {submitStatus === "error_invalid_email" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                    >
+                      Please enter a valid email address!
+                    </motion.div>
+                  )}
                 </div>
               </motion.form>
-
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Bottom CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="text-center mt-16"
-          >
-            <h3 
-              className="text-3xl md:text-4xl font-bold mb-8"
-              style={{ color: '#fff' }}
-            >
-              Ready to turn your story into something extraordinary?
-            </h3>
-            
-            <div className="flex flex-wrap justify-center gap-4">
-              {["Speaking", "Consulting", "Storytelling", "Brand Strategy"].map((service, index) => (
-                <motion.span
-                  key={service}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.2 + index * 0.1 }}
-                  whileHover={{ scale: 1.1 }}
-                  className="px-6 py-3 rounded-full font-medium cursor-pointer transition-all duration-300"
-                  style={{
-                    background: `linear-gradient(135deg, rgba(0, 123, 255, 0.2) 0%, rgba(0, 230, 230, 0.2) 100%)`,
-                    border: `1px solid #007BFF`,
-                    color: '#fff'
-                  }}
-                >
-                  {service}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="text-center mt-16"
+        >
+          <h3 className="text-3xl md:text-4xl font-bold mb-8 text-white">
+            Ready to turn your story into something extraordinary?
+          </h3>
+          <div className="flex flex-wrap justify-center gap-4">
+            {["Speaking", "Consulting", "Storytelling", "Brand Strategy"].map((service, index) => (
+              <motion.span
+                key={service}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.2 + index * 0.1 }}
+                whileHover={{ scale: 1.1 }}
+                className="px-6 py-3 rounded-full font-medium border"
+                style={{
+                  backgroundColor: "#2c2c2c",
+                  borderColor: "#444",
+                  color: "#fff"
+                }}
+              >
+                {service}
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 @import url("https://fonts.cdnfonts.com/css/general-sans");
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -16,6 +18,12 @@ body {
     font-family: "circular-web";
     src: url("/fonts/circularweb-book.woff2") format("woff2");
   }
+
+  @font-face {
+  font-family: "super-shinny";
+  src: url("/fonts/SuperShiny-0v0rG.ttf") format("ttf");
+  }
+
 
   @font-face {
     font-family: "general";
@@ -36,6 +44,7 @@ body {
     font-family: "zentry";
     src: url("/fonts/zentry-regular.woff2") format("woff2");
   }
+
 }
 
 @layer utilities {
@@ -295,11 +304,19 @@ body {
     opacity: 0.8;
   }
 }
+.custom-div{
+  background-color: #fff;
+  display: flex;
+  align-items: center;   /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  box-sizing: border-box;
+}
 
 .custom-video {
   width: 100vw;
   height: 100vh;
   object-fit: fill;
+  object-position: center;
 }
 
 /* Mobile view - reduce size */
@@ -320,6 +337,150 @@ body {
 
   .skip-btn {
     visibility: hidden;
+  }
+}
+
+
+.funky-text {
+  font-family: 'Rubik Doodle Shadow', cursive;
+}
+
+.funky-text-2 {
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+.funky-text-3 {
+  font-family: 'Bungee Spice', cursive;
+}
+
+.funky-text-4 {
+  font-family: 'Shrikhand';
+}
+
+
+
+.animated-gradient {
+  background-color: #FF4C29; /* default color before hover */
+  transition: background 0.5s ease, transform 0.3s ease;
+  color: white;
+}
+
+.animated-gradient:hover {
+  background-image: linear-gradient(270deg, #FF4C29, #00E6E6, #007BFF);
+  background-size: 400% 400%;
+  animation: gradientFlow 2s alternate-reverse infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (max-width: 640px) {
+  .topSection {
+    position: relative; /* Remove absolute positioning to prevent overlap */
+    top: 0;
+    left: 0;
+    padding: 1rem; /* Add padding for better spacing */
+    text-align: center; /* Center content for mobile */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .LogoImg{
+    width: 100px;
+  }
+
+  .topSection p {
+   opacity: 0;
+   font-size: 1px;
+  }
+
+  .topSection button {
+    padding: 0.5rem 1rem; /* Smaller padding for mobile */
+    font-size: 0.875rem; /* Smaller font for button */
+  }
+
+  /* // bottom section */
+  .bottom-image-section {
+    position: relative;
+    left: 0;
+    transform: none;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .bottom-image-section .image-wrapper {
+    height: 16rem; /* Reduce from 24rem (h-96) */
+    max-width: 100%; /* Ensure it fits within viewport */
+  }
+
+  .bottom-image-section img {
+    max-width: 100%;
+    height: 80%;
+    object-fit: cover; /* Ensure image scales properly */
+  }
+
+  .bottomRight{
+    bottom: 2%;
+    left: 2%;
+    background-color: #1C1C1C;
+    padding: 10px 20px;
+    width: 360px;
+    opacity: 0.8;
+  }
+
+  .knowText{
+    font-size: 10px;
+  }
+
+  .KnowName{
+    font-size: 15px;
+    margin-bottom: -1px;
+  }
+
+  .timelineDot{
+    opacity: 0;
+  }
+
+  .video-card{
+    height: 380px;
+  }
+
+  .short-card{
+    height: 640px;
+  }
+
+  .timelineLine{
+    top: 20%;
+  }
+
+   .AboutFlex {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    margin-left: 10px;
+  }
+
+  .AboutFlex img {
+    width: 180px;
+    height: 180px;
+    left: auto;
+    margin-top: 32px;
+  }
+
+  .AboutFlexP {
+    font-size: 14px;
+    text-align: left;
+    text-align-last: left;
+    left: 5%;
+    margin-top: 20%;
+    width: 330px;
   }
 }
 
