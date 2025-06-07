@@ -476,10 +476,10 @@ body {
 
   .AboutFlexP {
     font-size: 14px;
-    text-align: justify;
-    text-align-last: justify;
-    left: 5%;
+    text-align: left;
+    text-align-last: left;
     margin-top: 20%;
+    right: 20px !important;
     width: 330px;
   }
 }
