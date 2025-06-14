@@ -334,11 +334,11 @@ const PodcastSection = () => {
       category: "short",
     },
     {
-      videoId: "Kkq5MRHH-Wk",
+      videoId: "_mJOVQVYvno",
       episode: "04",
-      title: "In Conversation with Devarshi...",
+      title: "MTV GANG CHILLING AT CARTER ...",
       description:
-        "A detail conversation with EX-Roadies #devarshipatel regarding his journey in Roadies , his current life , His experiences and lot more.",
+        "AT CARTER ROAD IN EARLY MORNING WE ALL DOING MASTI..NAUMAN N SALMAN,DIMPLE,DEV,DJ REESHAV,ABHILASH,TATUM,N NISHA..WE ROCK ALWAYS...YAHA KE HUM SIKANDAR HUMSE PANGA MAT LENA MERE YAR..",
       duration: "48:27",
       category: "video",
     },
