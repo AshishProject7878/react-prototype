@@ -101,10 +101,10 @@ const Hero = () => {
         <div className="relative">
           {/* Placeholder for actual image */}
           <div 
-            className="w-max h-96 rounded-t-full flex items-end justify-center text-white text-lg font-medium"
+            className="w-max h-max rounded-t-full flex items-end justify-center text-white text-lg font-medium"
           >
             <div className="bottom-image-section text-center">
-                <img src='img/dp2.png' alt="Devarshi's Image"/>
+                <img src='img/LogoImage.png' alt="Devarshi's Image"/>
             </div>
           </div>
           
