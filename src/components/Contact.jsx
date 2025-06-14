@@ -1,7 +1,61 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import AnimatedTitle1 from "./AnimatedTitle";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import clsx from "clsx";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const CustomAnimatedTitle = ({ title, containerClass }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const titleAnimation = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "100 bottom",
+          end: "center bottom",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      titleAnimation.to(
+        ".animated-word",
+        {
+          opacity: 1,
+          transform: "translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg)",
+          ease: "power2.inOut",
+          stagger: 0.5,
+        },
+        0
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={containerRef} className={clsx("animated-title", containerClass)}>
+      {title.split("<br />").map((line, index) => (
+        <div
+          key={index}
+          className="title-font flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3"
+        >
+          {line.split(" ").map((word, idx) => (
+            <span
+              key={idx}
+              className="animated-word"
+              style={{ fontFamily: '"HVD", cursive' }}
+              dangerouslySetInnerHTML={{ __html: word }}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const StaggeredText = ({ title, containerClass }) => {
   const titleRef = useRef(null);
@@ -90,7 +144,7 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState("");
 
   useEffect(() => {
-    emailjs.init("7E85Be-mzfn5NmnlF"); // Your EmailJS Public Key
+    emailjs.init("7E85Be-mzfn5NmnlF");
   }, []);
 
   const handleMouseMove = (e) => {
@@ -207,7 +261,7 @@ const Contact = () => {
 
       await emailjs.send(
         "service_bqzf4o6",
-        "template_u8gou5r", // Replace with your EmailJS Template ID
+        "template_u8gou5r",
         {
           from_name: "Anonymous",
           from_email: "ashishproject78782@gmail.com",
@@ -217,11 +271,11 @@ const Contact = () => {
           reply_to: quickEmail || "ashishproject78782@gmail.com",
         }
       );
-      setSubmitStatus("success_quick"); // Differentiate quick message success
+      setSubmitStatus("success_quick");
       setFormData(prev => ({ ...prev, quickMessage: "", quickEmail: "" }));
     } catch (error) {
       console.error("EmailJS Quick Message error:", error.text || error);
-      setSubmitStatus("error_quick"); // Differentiate quick message error
+      setSubmitStatus("error_quick");
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setSubmitStatus(""), 3000);
@@ -260,11 +314,11 @@ const Contact = () => {
       style={{ backgroundColor: "#1C1C1C" }}
     >
       <div className="relative z-10 container mx-auto px-4 py-16">
-        <div className="relative mb-8 flex flex-col items-center gap-5">
-          <AnimatedTitle1
+        <div className="title-font relative mb-8 flex flex-col items-center gap-5">
+          <CustomAnimatedTitle
             title="Let's Catch Up? 🍵"
-            containerClass="text-center"
-            style={{ marginTop: "-30px" }}
+            containerClass="text-center title-font"
+            style={{ marginTop: "-30px", fontFamily: 'HVD' }}
           />
         </div>
 
@@ -334,7 +388,6 @@ const Contact = () => {
                   ))}
                 </div>
 
-                {/* Moved quick message form outside main form */}
                 <motion.div
                   variants={formVariants}
                   initial="hidden"
@@ -497,7 +550,9 @@ const Contact = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
-                    style={{ backgroundColor: '#FF4C29' }}
+                    style={{ 
+                      backgroundImage: 'linear-gradient(135deg, #FF4C29, #00E6E6)',
+                     }}
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center space-x-2">

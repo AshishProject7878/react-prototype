@@ -15,36 +15,14 @@ body {
 
 @layer base {
   @font-face {
-    font-family: "circular-web";
-    src: url("/fonts/circularweb-book.woff2") format("woff2");
+    font-family: 'HVD';
+    src: url('/fonts/hvd_steinzeit.otf') format('opentype');
   }
 
   @font-face {
-  font-family: "super-shinny";
-  src: url("/fonts/SuperShiny-0v0rG.ttf") format("ttf");
+    font-family: 'HVD Filling';
+    src: url('/fonts/hvd_steinzeit_fillin.otf') format('opentype');
   }
-
-
-  @font-face {
-    font-family: "general";
-    src: url("/fonts/general.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "robert-medium";
-    src: url("/fonts/robert-medium.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "robert-regular";
-    src: url("/fonts/robert-regular.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "zentry";
-    src: url("/fonts/zentry-regular.woff2") format("woff2");
-  }
-
 }
 
 @layer utilities {
@@ -72,16 +50,15 @@ body {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 
-  .special-font b {
-    font-family: "Zentry";
-    font-feature-settings: "ss01" on;
+  .title-font {
+    font-family: "HVD", sans-serif !important;
   }
 
   .hero-heading {
-    @apply font-zentry font-black text-5xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[12rem];
+    @apply font-black text-5xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[12rem];
   }
 
-  .about-subtext {
+  .about-sub CLUSTERED {
     @apply absolute bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[34rem];
   }
 
@@ -90,11 +67,12 @@ body {
   }
 
   .animated-title {
-    @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[6rem];
+    @apply flex font-extrabold flex-col gap-1 text-5xl uppercase leading-[.8] text-gray-300 sm:px-32 md:text-[6rem];
+    font-family: 'HVD', sans-serif;
   }
 
   .animated-word {
-    @apply special-font font-zentry font-black opacity-0;
+    @apply font-black opacity-0;
     transform: translate3d(10px, 51px, -60px) rotateY(60deg) rotateX(-40deg);
     transform-origin: 50% 50% -150px !important;
     will-change: opacity, transform;
@@ -109,7 +87,7 @@ body {
   }
 
   .bento-title {
-    @apply uppercase md:text-6xl text-4xl font-black font-zentry;
+    @apply uppercase md:text-6xl text-4xl font-black;
   }
 
   .story-img-container {
@@ -268,7 +246,6 @@ body {
   animation-delay: .3s;
 }
 
-
 @keyframes spin78236 {
   0% {
     transform: rotate(0deg);
@@ -304,11 +281,12 @@ body {
     opacity: 0.8;
   }
 }
-.custom-div{
+
+.custom-div {
   background-color: #fff;
   display: flex;
-  align-items: center;   /* Vertically center */
-  justify-content: center; /* Horizontally center */
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -324,8 +302,8 @@ body {
   .custom-div {
     background-color: #fff;
     display: flex;
-    align-items: center;   /* Vertically center */
-    justify-content: center; /* Horizontally center */
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
   }
 
@@ -339,7 +317,6 @@ body {
     visibility: hidden;
   }
 }
-
 
 .funky-text {
   font-family: 'Rubik Doodle Shadow', cursive;
@@ -357,10 +334,8 @@ body {
   font-family: 'Shrikhand';
 }
 
-
-
 .animated-gradient {
-  background-color: #FF4C29; /* default color before hover */
+  background-color: #FF4C29;
   transition: background 0.5s ease, transform 0.3s ease;
   color: white;
 }
@@ -382,31 +357,30 @@ body {
 
 @media (max-width: 640px) {
   .topSection {
-    position: relative; /* Remove absolute positioning to prevent overlap */
+    position: relative;
     top: 0;
     left: 0;
-    padding: 1rem; /* Add padding for better spacing */
-    text-align: center; /* Center content for mobile */
+    padding: 1rem;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .LogoImg{
+  .LogoImg {
     width: 100px;
   }
 
   .topSection p {
-   opacity: 0;
-   font-size: 1px;
+    opacity: 0;
+    font-size: 1px;
   }
 
   .topSection button {
-    padding: 0.5rem 1rem; /* Smaller padding for mobile */
-    font-size: 0.875rem; /* Smaller font for button */
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 
-  /* // bottom section */
   .bottom-image-section {
     position: relative;
     left: 0;
@@ -416,17 +390,23 @@ body {
   }
 
   .bottom-image-section .image-wrapper {
-    height: 16rem; /* Reduce from 24rem (h-96) */
-    max-width: 100%; /* Ensure it fits within viewport */
+    height: 16rem;
+    max-width: 100%;
   }
 
   .bottom-image-section img {
     max-width: 100%;
     height: 80%;
-    object-fit: cover; /* Ensure image scales properly */
+    object-fit: cover;
   }
 
-  .bottomRight{
+  .moba{
+    opacity: 1;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .bottomRight {
     bottom: 2%;
     left: 2%;
     background-color: #1C1C1C;
@@ -435,32 +415,32 @@ body {
     opacity: 0.8;
   }
 
-  .knowText{
+  .knowText {
     font-size: 10px;
   }
 
-  .KnowName{
+  .KnowName {
     font-size: 15px;
     margin-bottom: -1px;
   }
 
-  .timelineDot{
+  .timelineDot {
     opacity: 0;
   }
 
-  .video-card{
+  .video-card {
     height: 380px;
   }
 
-  .short-card{
+  .short-card {
     height: 640px;
   }
 
-  .timelineLine{
+  .timelineLine {
     top: 20%;
   }
 
-   .AboutFlex {
+  .AboutFlex {
     flex-direction: column;
     padding: 1.5rem;
     gap: 1rem;
@@ -475,12 +455,26 @@ body {
   }
 
   .AboutFlexP {
+    position: absolute;
     font-size: 14px;
     text-align: left;
     text-align-last: left;
-    margin-top: 15%;
+    margin-top: 40%;
+    margin-bottom: -500px;
     right: 40px !important;
     width: 330px;
   }
-}
 
+  .about-image{
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .about-image img{
+    width: 180px;
+    height: 180px;
+    margin-top: 100px;
+    left: 25%;
+    position: absolute;
+  }
+}

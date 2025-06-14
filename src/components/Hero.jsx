@@ -42,7 +42,9 @@ const Hero = () => {
             }
           }}
           className="mt-4 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
-          style={{ backgroundColor: '#FF4C29' }}
+          style={{ 
+             backgroundImage: 'linear-gradient(135deg, #FF4C29, #00E6E6)',
+           }}
         >
           Let’s Catch Up?
         </button>
@@ -79,7 +81,9 @@ const Hero = () => {
         <div className="mt-6">
         <button
           className="animated-gradient hover:opacity-90 hover:scale-105 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300"
-          style={{ backgroundColor: '#FF4C29' }}
+          style={{ 
+            backgroundImage: 'linear-gradient(135deg, #FF4C29, #00E6E6)',
+           }}
           onClick={() => {
             const section = document.getElementById('about');
             if (section) {
