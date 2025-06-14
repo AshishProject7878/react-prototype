@@ -477,4 +477,8 @@ body {
     left: 25%;
     position: absolute;
   }
+
+  .animated-title{
+    font-size: 5rem;
+  }
 }
