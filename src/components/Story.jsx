@@ -323,11 +323,11 @@ const PodcastSection = () => {
       category: "short",
     },
     {
-      videoId: "_mJOVQVYvno",
+      videoId: "BYjO5virVUk",
       episode: "04",
-      title: "MTV GANG CHILLING AT CARTER ...",
+      title: "STAGE FEAR, CONFIDENCE ...",
       description:
-        "AT CARTER ROAD IN EARLY MORNING WE ALL DOING MASTI..NAUMAN N SALMAN,DIMPLE,DEV,DJ REESHAV,ABHILASH,TATUM,N NISHA..WE ROCK ALWAYS...YAHA KE HUM SIKANDAR HUMSE PANGA MAT LENA MERE YAR..",
+        "Devarshi Patel: રોડીઝ લિજેન્ડની જર્નીરોડીઝના જાણીતા સ્પર્ધક દેવર્ષિ પટેલને દર્શાવતા મનમોહક એપિસોડ માટે અમારી સાથે જોડાઓ, જેમણે શો અને દર્શકોના હૃદય પર અમીટ છાપ છોડી દીધી છે. ",
       duration: "48:27",
       category: "video",
     },
