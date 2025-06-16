@@ -450,7 +450,7 @@ body {
   .AboutFlex img {
     width: 180px;
     height: 180px;
-    left: auto;
+    left: 5%;
     margin-top: 32px;
   }
 
@@ -483,6 +483,21 @@ body {
   }
 
   .topSection2{
+    left: 5%;
+    text-align: left;
+    z-index: -1;
+  }
+
+  .topSection2 h1{
+    font-size: 2rem;
+  }
+
+  .topSection2 p{
+    font-size: 10px;
+    margin-top: 10px;
+  }
+
+  .journey-button{
     opacity: 0;
   }
 
