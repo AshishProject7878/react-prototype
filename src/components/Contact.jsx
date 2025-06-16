@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import clsx from "clsx";
+import { FaEnvelope, FaPhone, FaLinkedin, FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -144,7 +145,7 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "", // Added phone field
+    phone: "",
     subject: "",
     message: "",
     quickMessage: "",
@@ -195,17 +196,19 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    if (!formData.name || !formData.phone || !formData.subject || !formData.message) {
       setSubmitStatus("error_empty");
       setTimeout(() => setSubmitStatus(""), 3000);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setSubmitStatus("error_invalid_email");
-      setTimeout(() => setSubmitStatus(""), 3000);
-      return;
+    if (formData.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        setSubmitStatus("error_invalid_email");
+        setTimeout(() => setSubmitStatus(""), 3000);
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -213,26 +216,26 @@ const Contact = () => {
     try {
       console.log("Sending main form with:", {
         from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone || "Not provided", // Include phone in email data
+        from_email: formData.email || "Not provided",
+        phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
-        reply_to: formData.email,
+        reply_to: formData.email || "ashishproject78782@gmail.com",
       });
 
       await emailjs.send("service_bqzf4o6", "template_u8gou5r", {
         from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone || "Not provided", // Include phone in email data
+        from_email: formData.email || "Not provided",
+        phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
-        reply_to: formData.email,
+        reply_to: formData.email || "ashishproject78782@gmail.com",
       });
       setSubmitStatus("success");
       setFormData({
         name: "",
         email: "",
-        phone: "", // Reset phone field
+        phone: "",
         subject: "",
         message: "",
         quickMessage: "",
@@ -379,32 +382,36 @@ const Contact = () => {
                 <div className="space-y-6">
                   {[
                     {
-                      icon: "📧",
+                      icon: <FaEnvelope className="h-6 w-6" />,
                       label: "Email",
                       value: "devarshi@devkadose.com",
                       href: "mailto:devarshi@devkadose.com",
                     },
-                    { icon: "📱", label: "Phone", value: "+91 9978440857" },
                     {
-                      icon: "🌍",
+                      icon: <FaPhone className="h-6 w-6" />,
+                      label: "Phone",
+                      value: "+91 9978440857",
+                    },
+                    {
+                      icon: <FaLinkedin className="h-6 w-6" />,
                       label: "LinkedIn",
                       value: "Devarshi Patel (DEVkaDOSE)",
                       href: "https://www.linkedin.com/in/devarshi-patel-devkadose/",
                     },
                     {
-                      icon: "📷",
+                      icon: <FaInstagram className="h-6 w-6" />,
                       label: "Instagram",
                       value: "devkadose",
                       href: "https://www.instagram.com/devkadose?igsh=MTV5bjEwbTJhbGw2eA%3D%3D&utm_source=qr",
                     },
                     {
-                      icon: "📘",
+                      icon: <FaFacebook className="h-6 w-6" />,
                       label: "Facebook",
                       value: "DEVkaDOSE",
                       href: "https://www.facebook.com/share/1BSXR5f2qk/?mibextid=wwXIfr",
                     },
                     {
-                      icon: "▶️",
+                      icon: <FaYoutube className="h-6 w-6" />,
                       label: "YouTube",
                       value: "@devkadose",
                       href: "https://youtube.com/@devkadose?si=sV-36IZttioF-6Mq",
@@ -454,20 +461,22 @@ const Contact = () => {
               >
                 <div className="space-y-6">
                   {[
-                    { name: "name", label: "Name", type: "text", placeholder: "John Doe" },
+                    { name: "name", label: "Name*", type: "text", placeholder: "John Doe", required: true },
                     {
                       name: "email",
                       label: "Email",
                       type: "email",
                       placeholder: "john@example.com",
+                      required: false,
                     },
                     {
                       name: "phone",
-                      label: "Phone (Optional)",
+                      label: "Phone*",
                       type: "tel",
                       placeholder: "+91 1234567890",
+                      required: true,
                     },
-                    { name: "subject", label: "Subject", type: "text", placeholder: "Let's collaborate!" },
+                    { name: "subject", label: "Subject*", type: "text", placeholder: "Let's collaborate!", required: true },
                   ].map((field, index) => (
                     <motion.div
                       key={field.name}
@@ -483,6 +492,7 @@ const Contact = () => {
                         value={formData[field.name]}
                         onChange={handleInputChange}
                         placeholder={field.placeholder}
+                        required={field.required}
                         className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
                       />
                     </motion.div>
@@ -494,7 +504,7 @@ const Contact = () => {
                     initial="hidden"
                     animate="visible"
                   >
-                    <label className="block text-sm font-medium mb-2 text-white">Message</label>
+                    <label className="block text-sm font-medium mb-2 text-white">Message*</label>
                     <textarea
                       name="message"
                       value={formData.message}
