@@ -39,9 +39,9 @@ const About = () => {
       <div className="h-dvh w-screen" id="clip">
         <div className="AboutFlex mask-clip-path about-image flex-center">
           <img
-            src="img/dp.png"
+            src="img/KnowMe.png"
             alt="Background"
-            className="absolute left-5 top-0 size-fit object-cover z-10"
+            className="absolute left-5 top-0 size-fit object-contain z-10"
           />
           <p className="AboutFlexP absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-white">
             I'm <span className="font-semibold text-primary">Devarshi</span> — the guy who jumped into a coffin on MTV Roadies Season 6
