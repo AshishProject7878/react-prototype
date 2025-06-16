@@ -288,12 +288,6 @@ const PodcastSection = () => {
       category: "video",
     },
     {
-      videoId: "iiitpyNoW_g",
-      episode: "03",
-      title: "Devarshi Patel Talking about AIM",
-      category: "short",
-    },
-    {
       videoId: "9mFXHFeEXso",
       title: "Devarshi Patel gets reality check",
       category: "short",
@@ -321,11 +315,6 @@ const PodcastSection = () => {
     {
       videoId: "RsM5vrrBiTU",
       title: "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
-      category: "short",
-    },
-    {
-      videoId: "wy64xEoAG-M",
-      title: "Devarshi patel talks on how to stick to a positive path.",
       category: "short",
     },
     {
