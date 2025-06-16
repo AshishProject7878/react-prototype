@@ -549,10 +549,7 @@ const Contact = () => {
                     animate="visible"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
-                    style={{ 
-                      backgroundImage: 'linear-gradient(135deg, #FF4C29, #00E6E6)',
-                     }}
+                    className="w-full px-6 py-3 animated-gradient rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105 animated-gradient"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center space-x-2">

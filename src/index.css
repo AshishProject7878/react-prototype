@@ -481,4 +481,32 @@ body {
   .animated-title{
     font-size: 5rem;
   }
+
+  .topSection2{
+    opacity: 0;
+  }
+}
+
+.animated-gradient {
+  background: radial-gradient(circle, #007BFF, #FF4C29, #00E6E6);
+  background-size: 400% 400%;
+  animation: circularFlow 10s linear infinite;
+}
+
+@keyframes circularFlow {
+  0% {
+    background-position: 50% 0%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  75% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
 }
