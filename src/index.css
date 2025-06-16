@@ -485,6 +485,10 @@ body {
   .topSection2{
     opacity: 0;
   }
+
+  .extra-text{
+    opacity: 0;
+  }
 }
 
 .animated-gradient {

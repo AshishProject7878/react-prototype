@@ -12,18 +12,22 @@ const journeyCards = [
   {
     title: "The Journey of Devarshi Patel",
     description: `Went viral on <span class="highlight">MTV Roadies Season 6</span> with a bold coffin stunt, igniting a passion for entertaining and inspiring.`,
+    color: "#FF4C29",
   },
   {
     title: "Roadies Journey: A Battle of Wits and Strength",
     description: `Performed at <span class="highlight">Numerous events</span> mastering the art of blending humor with heartfelt lessons.`,
+    color: "#007BFF",
   },
   {
     title: "A Legacy of Authenticity",
     description: `Crafted relatable content for brands, reaching millions by turning raw moments into stories that connect.`,
+    color: "#00E6E6",
   },
   {
     title: "Devarshi is now an Inspirational Comedian",
     description: `Transforming <span class="highlight">pain</span> into purpose to inspire teams, communities, and brands worldwide.`,
+    color: "#007BFF",
   },
 ];
 
@@ -107,10 +111,12 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
         }`}
         style={{
           background: isActive
-            ? "rgba(0, 123, 255, 0.15)"
+            ? `${item.color}20`
             : "rgba(17, 24, 39, 0.4)",
-          borderColor: isActive ? "#007BFF" : "#374151",
-          boxShadow: isActive ? "0 0 25px rgba(0, 123, 255, 0.25)" : undefined,
+          borderColor: item.color,
+          boxShadow: isActive
+            ? `0 0 25px ${item.color}40`
+            : undefined,
         }}
       >
         <motion.div
@@ -130,7 +136,7 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
         >
           <motion.h3
             className="text-2xl md:text-3xl font-bold mb-4 text-center"
-            style={{ color: "#007BFF" }}
+            style={{ color: item.color }}
           >
             {item.title}
           </motion.h3>
@@ -150,7 +156,7 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.3 }}
               style={{
-                backgroundColor: "rgba(0, 123, 255, 0.2)",
+                backgroundColor: `${item.color}33`,
                 filter: "blur(20px)",
                 zIndex: -1,
               }}
@@ -245,9 +251,7 @@ const Features = () => {
       id="journey"
       ref={sectionRef}
       className="relative py-32 text-blue-50 overflow-hidden"
-      style={{
-        backgroundColor: "#1C1C1C",
-      }}
+      style={{ backgroundColor: "#1C1C1C" }}
     >
       <motion.div
         className="absolute inset-0 opacity-30"
@@ -286,7 +290,10 @@ const Features = () => {
 
       <div className="text-center mb-24 relative" style={{ zIndex: 3 }}>
         <div className="relative mb-8 flex flex-col items-center gap-5">
-          <AnimatedTitle1 title="My Journey" containerClass="mt-5 text-center" />
+          <AnimatedTitle1
+            title="My Journey"
+            containerClass="mt-5 text-center"
+          />
         </div>
         <motion.p
           ref={subtitleRef}

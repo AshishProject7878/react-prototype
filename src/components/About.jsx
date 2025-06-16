@@ -12,10 +12,10 @@ const About = () => {
       scrollTrigger: {
         trigger: "#clip",
         start: "center center",
-        end: "+=1200 bottom",
+        end: "+=500 bottom",
         scrub: 0.5,
         pin: true,
-        pinSpacing: true,
+        pinSpacing: false,
       },
     });
 
@@ -48,10 +48,12 @@ const About = () => {
             and turned it into a career. My viral 2009 audition, with epic hair and bold vibes, didn't win the show but stole hearts and screen time.
             <br /><br />
             That sparked my journey as a <strong>Inspirational Comedian</strong>, <strong>Actor</strong>, and <strong>Influencer</strong>.
+            <span className="extra-text">
             I turn pain, awkward moments, and funny failures into growth for people, teams, and businesses.
             <br /><br />
             From 5-minute talks that ignite rooms to content your cousin, boss, or grandma vibes with, my motto is:
             <em className="block mt-2 text-primary font-semibold">Keep it real. Make it funny. Leave a mark.</em>
+            </span>
           </p>
 
         </div>
