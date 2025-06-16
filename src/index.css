@@ -447,13 +447,6 @@ body {
     margin-left: 10px;
   }
 
-  .AboutFlex img {
-    width: 180px;
-    height: 180px;
-    left: 5%;
-    margin-top: 32px;
-  }
-
   .AboutFlexP {
     position: absolute;
     font-size: 14px;
