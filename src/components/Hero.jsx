@@ -103,7 +103,7 @@ const Hero = () => {
               <img
                 src="img/LogoImage.png"
                 alt="Devarshi's Image"
-                className="w-[80vw] h-[90vh] max-h-[600px] object-contain"
+                className="w-auto h-auto max-h-[600px] object-contain"
               />
             </div>
           </div>
