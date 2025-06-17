@@ -96,12 +96,12 @@ const Hero = () => {
       </div>
 
       {/* Bottom Center - Image */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute -bottom-20 left-1/2 transform -translate-x-1/2 z-10">
         <div className="relative">
           <div className="w-max h-max rounded-t-full flex items-end justify-center text-white text-lg font-medium">
             <div className="bottom-image-section text-center">
               <img
-                src="img/LogoImage.png"
+                src="img/hero.png"
                 alt="Devarshi's Image"
                 className="w-auto h-auto max-h-[600px] object-contain"
               />
