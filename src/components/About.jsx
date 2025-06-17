@@ -23,7 +23,7 @@ const About = () => {
       scrollTrigger: {
         trigger: "#clip",
         start: "top top",
-        end: "+=500",
+        end: "+=1500",
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
@@ -40,7 +40,7 @@ const About = () => {
         scale: 1.2, 
       })
       .to(".knowImg", {
-        marginTop: "28%", 
+        marginTop: "40%", 
         left: "5%",
       })
       .to(
@@ -51,7 +51,7 @@ const About = () => {
           zIndex: 1,
           duration: 1,
           scale: .9,
-          
+
         },
         "-=0.5"
       );
