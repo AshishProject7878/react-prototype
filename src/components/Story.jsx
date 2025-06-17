@@ -340,7 +340,7 @@ const PodcastSection = () => {
     <div
       ref={sectionRef}
       id="podcast"
-      className="min-h-screen w-full relative overflow-hidden"
+      className="min-h-screen w-full relative overflow-hidden pod-main"
       style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
     >
       <motion.div

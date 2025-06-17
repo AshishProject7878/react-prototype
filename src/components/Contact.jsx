@@ -86,7 +86,7 @@ const StaggeredText = ({ title, containerClass }) => {
     }
 
     return () => observer.disconnect();
-  }, [controls, titleRef]);
+  }, [controls]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -214,15 +214,6 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      console.log("Sending main form with:", {
-        from_name: formData.name,
-        from_email: formData.email || "Not provided",
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
-        reply_to: formData.email || "ashishproject78782@gmail.com",
-      });
-
       await emailjs.send("service_bqzf4o6", "template_u8gou5r", {
         from_name: formData.name,
         from_email: formData.email || "Not provided",
@@ -269,15 +260,6 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      console.log("Sending quick message with:", {
-        from_name: "Anonymous",
-        from_email: "ashishproject78782@gmail.com",
-        subject: "Quick Message from Website",
-        message: formData.quickMessage,
-        quick_email: quickEmail || "Not provided",
-        reply_to: quickEmail || "ashishproject78782@gmail.com",
-      });
-
       await emailjs.send("service_bqzf4o6", "template_u8gou5r", {
         from_name: "Anonymous",
         from_email: "ashishproject78782@gmail.com",
@@ -325,7 +307,7 @@ const Contact = () => {
   return (
     <div
       id="contact"
-      className="min-h-screen relative overflow-hidden"
+      className="min-h-screen relative overflow-hidden con-main"
       style={{ backgroundColor: "#1C1C1C" }}
     >
       <div className="relative z-10 container mx-auto px-4 py-16">
@@ -386,35 +368,41 @@ const Contact = () => {
                       label: "Email",
                       value: "devarshi@devkadose.com",
                       href: "mailto:devarshi@devkadose.com",
+                      color: "#EA4335",
                     },
                     {
                       icon: <FaPhone className="h-6 w-6" />,
                       label: "Phone",
                       value: "+91 9978440857",
+                      color: "#25D366",
                     },
                     {
                       icon: <FaLinkedin className="h-6 w-6" />,
                       label: "LinkedIn",
                       value: "Devarshi Patel (DEVkaDOSE)",
                       href: "https://www.linkedin.com/in/devarshi-patel-devkadose/",
+                      color: "#0A66C2",
                     },
                     {
                       icon: <FaInstagram className="h-6 w-6" />,
                       label: "Instagram",
                       value: "devkadose",
                       href: "https://www.instagram.com/devkadose?igsh=MTV5bjEwbTJhbGw2eA%3D%3D&utm_source=qr",
+                      color: "#E1306C",
                     },
                     {
                       icon: <FaFacebook className="h-6 w-6" />,
                       label: "Facebook",
                       value: "DEVkaDOSE",
                       href: "https://www.facebook.com/share/1BSXR5f2qk/?mibextid=wwXIfr",
+                      color: "#1877F2",
                     },
                     {
                       icon: <FaYoutube className="h-6 w-6" />,
                       label: "YouTube",
                       value: "@devkadose",
                       href: "https://youtube.com/@devkadose?si=sV-36IZttioF-6Mq",
+                      color: "#FF0000",
                     },
                   ].map((item, index) => (
                     <motion.div
@@ -430,7 +418,7 @@ const Contact = () => {
                         color: "#fff",
                       }}
                     >
-                      <span className="text-2xl">{item.icon}</span>
+                      <span className="text-2xl" style={{ color: item.color }}>{item.icon}</span>
                       <div>
                         <p className="font-semibold">{item.label}</p>
                         {item.href ? (
@@ -452,189 +440,191 @@ const Contact = () => {
                 </div>
               </div>
 
-              <motion.form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                variants={formVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                <div className="space-y-6">
-                  {[
-                    { name: "name", label: "Name*", type: "text", placeholder: "John Doe", required: true },
-                    {
-                      name: "email",
-                      label: "Email",
-                      type: "email",
-                      placeholder: "john@example.com",
-                      required: false,
-                    },
-                    {
-                      name: "phone",
-                      label: "Phone*",
-                      type: "tel",
-                      placeholder: "+91 1234567890",
-                      required: true,
-                    },
-                    { name: "subject", label: "Subject*", type: "text", placeholder: "Let's collaborate!", required: true },
-                  ].map((field, index) => (
+              <div>
+                <motion.form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  variants={formVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <div className="space-y-6">
+                    {[
+                      { name: "name", label: "Name*", type: "text", placeholder: "John Doe", required: true },
+                      {
+                        name: "email",
+                        label: "Email",
+                        type: "email",
+                        placeholder: "john@example.com",
+                        required: false,
+                      },
+                      {
+                        name: "phone",
+                        label: "Phone*",
+                        type: "tel",
+                        placeholder: "+91 1234567890",
+                        required: true,
+                      },
+                      { name: "subject", label: "Subject*", type: "text", placeholder: "Let's collaborate!", required: true },
+                    ].map((field, index) => (
+                      <motion.div
+                        key={field.name}
+                        variants={inputVariants}
+                        custom={index + 4}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <label className="block text-sm font-medium mb-2 text-white">{field.label}</label>
+                        <input
+                          type={field.type}
+                          name={field.name}
+                          value={formData[field.name]}
+                          onChange={handleInputChange}
+                          placeholder={field.placeholder}
+                          required={field.required}
+                          className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                        />
+                      </motion.div>
+                    ))}
+
                     <motion.div
-                      key={field.name}
                       variants={inputVariants}
-                      custom={index + 4}
+                      custom={7}
                       initial="hidden"
                       animate="visible"
                     >
-                      <label className="block text-sm font-medium mb-2 text-white">{field.label}</label>
-                      <input
-                        type={field.type}
-                        name={field.name}
-                        value={formData[field.name]}
+                      <label className="block text-sm font-medium mb-2 text-white">Message*</label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
                         onChange={handleInputChange}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                        placeholder="Tell me about your project..."
+                        rows={6}
+                        required
+                        className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white resize-none"
                       />
                     </motion.div>
-                  ))}
 
-                  <motion.div
-                    variants={inputVariants}
-                    custom={7}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    <label className="block text-sm font-medium mb-2 text-white">Message*</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Tell me about your project..."
-                      rows={6}
-                      required
-                      className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white resize-none"
-                    />
-                  </motion.div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    variants={inputVariants}
-                    custom={8}
-                    initial="hidden"
-                    animate="visible"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full px-6 py-3 animated-gradient rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:scale-105"
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center justify-center space-x-2">
-                        <div className="w-5 h-5 border-2 rounded-full animate-spin border-white border-t-transparent" />
-                        <span>Sending...</span>
-                      </div>
-                    ) : (
-                      <span>Let’s Catch Up?</span>
-                    )}
-                  </motion.button>
-
-                  {submitStatus === "success" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 rounded-xl text-center font-medium text-[#00E6E6] border border-[#00E6E6] bg-[#1C1C1C]"
-                    >
-                      Message sent successfully! I'll get back to you soon.
-                    </motion.div>
-                  )}
-                  {submitStatus === "error" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
-                    >
-                      Failed to send message. Please try again later.
-                    </motion.div>
-                  )}
-                  {submitStatus === "error_empty" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
-                    >
-                      Please fill out all required fields!
-                    </motion.div>
-                  )}
-                  {submitStatus === "error_invalid_email" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
-                    >
-                      Please enter a valid email address!
-                    </motion.div>
-                  )}
-
-                  <motion.div
-                    variants={formVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="mt-6"
-                  >
-                    <motion.div
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
                       variants={inputVariants}
-                      custom={9}
+                      custom={8}
                       initial="hidden"
                       animate="visible"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full px-6 py-3 animated-gradient rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg"
                     >
-                      <label className="block text-sm font-medium mb-2 text-white">
-                        Feeling lazy? Drop a quick message!
-                      </label>
-                      <form ref={quickMessageRef} onSubmit={handleQuickMessageSubmit}>
-                        <div className="space-y-4">
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center space-x-2">
+                          <div className="w-5 h-5 border-2 rounded-full animate-spin border-white border-t-transparent" />
+                          <span>Sending...</span>
+                        </div>
+                      ) : (
+                        <span>Let’s Catch Up?</span>
+                      )}
+                    </motion.button>
+
+                    {submitStatus === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#00E6E6] border border-[#00E6E6] bg-[#1C1C1C]"
+                      >
+                        Message sent successfully! I'll get back to you soon.
+                      </motion.div>
+                    )}
+                    {submitStatus === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                      >
+                        Failed to send message. Please try again later.
+                      </motion.div>
+                    )}
+                    {submitStatus === "error_empty" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                      >
+                        Please fill out all required fields!
+                      </motion.div>
+                    )}
+                    {submitStatus === "error_invalid_email" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C]"
+                      >
+                        Please enter a valid email address!
+                      </motion.div>
+                    )}
+                  </div>
+                </motion.form>
+
+                <motion.div
+                  variants={formVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="mt-6"
+                >
+                  <motion.div
+                    variants={inputVariants}
+                    custom={9}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <label className="block text-sm font-medium mb-2 text-white">
+                      Feeling lazy? Drop a quick message!
+                    </label>
+                    <form ref={quickMessageRef} onSubmit={handleQuickMessageSubmit}>
+                      <div className="space-y-4">
+                        <input
+                          type="email"
+                          name="quickEmail"
+                          value={formData.quickEmail}
+                          onChange={handleInputChange}
+                          placeholder="Your email (optional)"
+                          className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                        />
+                        <div className="flex items-center space-x-2">
                           <input
-                            type="email"
-                            name="quickEmail"
-                            value={formData.quickEmail}
+                            type="text"
+                            name="quickMessage"
+                            value={formData.quickMessage}
                             onChange={handleInputChange}
-                            placeholder="Your email (optional)"
+                            placeholder="Quick message..."
                             className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
                           />
-                          <div className="flex items-center space-x-2">
-                            <input
-                              type="text"
-                              name="quickMessage"
-                              value={formData.quickMessage}
-                              onChange={handleInputChange}
-                              placeholder="Quick message..."
-                              className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
-                            />
-                            <motion.button
-                              type="submit"
-                              disabled={isSubmitting}
-                              variants={inputVariants}
-                              custom={10}
-                              initial="hidden"
-                              animate="visible"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                          <motion.button
+                            type="submit"
+                            disabled={isSubmitting}
+                            variants={inputVariants}
+                            custom={10}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </motion.button>
-                          </div>
+                              <path
+                                fillRule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </motion.button>
                         </div>
-                      </form>
+                      </div>
                       {submitStatus === "error_empty" && (
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
@@ -671,10 +661,10 @@ const Contact = () => {
                           Failed to send quick message. Please try again.
                         </motion.div>
                       )}
-                    </motion.div>
+                    </form>
                   </motion.div>
-                </div>
-              </motion.form>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -691,7 +681,7 @@ const Contact = () => {
           <div className="flex flex-wrap justify-center gap-4">
             {["Speaking", "Consulting", "Storytelling", "Brand Strategy"].map((service, index) => (
               <motion.span
-                key={service}
+                key={index}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.2 + index * 0.1 }}

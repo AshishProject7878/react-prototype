@@ -493,6 +493,15 @@ body {
   .extra-text{
     opacity: 0;
   }
+
+  .pod-main{
+    margin-bottom: -50px;
+  }
+
+  .con-main{
+    margin-top: -75px;
+  }
+
 }
 
 .animated-gradient {
