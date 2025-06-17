@@ -13,21 +13,25 @@ const journeyCards = [
     title: "The Journey of Devarshi Patel",
     description: `Went viral on <span class="highlight">MTV Roadies Season 6</span> with a bold coffin stunt, igniting a passion for entertaining and inspiring.`,
     color: "#FF4C29",
+    image: "/img/journey-1.jpg",
   },
   {
     title: "Roadies Journey: A Battle of Wits and Strength",
     description: `Performed at <span class="highlight">Numerous events</span> mastering the art of blending humor with heartfelt lessons.`,
     color: "#007BFF",
+    image: "/img/Journey-2.jpg",
   },
   {
     title: "A Legacy of Authenticity",
     description: `Crafted relatable content for brands, reaching millions by turning raw moments into stories that connect.`,
     color: "#00E6E6",
+    image: "/img/dp3.jpg",
   },
   {
     title: "Devarshi is now an Inspirational Comedian",
     description: `Transforming <span class="highlight">pain</span> into purpose to inspire teams, communities, and brands worldwide.`,
     color: "#007BFF",
+    image: "/img/LogoImage.png",
   },
 ];
 
@@ -38,12 +42,14 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
     margin: "-100px 0px -100px 0px",
   });
 
+  const isDesktop = window.innerWidth >= 768;
+
   const cardVariants = {
     hidden: {
       opacity: 0,
       scale: 0.8,
-      x: index % 2 === 0 ? -100 : 100,
-      rotateY: -15,
+      x: index % 2 === 0 && isDesktop ? -100 : index % 2 !== 0 && isDesktop ? 100 : 0,
+      rotateY: isDesktop ? -15 : 0,
     },
     visible: {
       opacity: 1,
@@ -62,6 +68,28 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
       transition: {
         duration: 0.3,
         ease: "easeOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: {
+      opacity: 0,
+      x: index % 2 === 0 ? -50 : 50,
+      filter: "grayscale(100%)",
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      filter: isActive ? "grayscale(0%)" : "grayscale(100%)",
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.25, 0.25, 1],
+        delay: 0.4,
+        filter: {
+          duration: 0.3,
+          ease: "easeOut",
+        },
       },
     },
   };
@@ -99,78 +127,98 @@ const TimelineCard = ({ item, index, isActive, setActiveCard }) => {
   };
 
   return (
-    <div ref={cardRef} className="relative flex items-center">
+    <div ref={cardRef} className="relative flex items-center justify-center">
       <motion.div
-        variants={cardVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        whileHover="hover"
-        onHoverStart={() => setActiveCard(index)}
-        className={`relative w-full md:w-2/5 p-8 rounded-2xl backdrop-blur-lg border-2 shadow-2xl cursor-pointer ${
-          index % 2 === 0 ? "mr-auto" : "ml-auto"
-        }`}
+        className={`card-Box flex flex-col md:flex-row items-center justify-center w-full md:w-5/6 ${
+          index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+        } gap-8`}
         style={{
-          background: isActive
-            ? `${item.color}20`
-            : "rgba(17, 24, 39, 0.4)",
-          borderColor: item.color,
-          boxShadow: isActive
-            ? `0 0 25px ${item.color}40`
-            : undefined,
+          transform:
+            isDesktop && index % 2 === 0
+              ? "translateX(-10%)"
+              : isDesktop && index % 2 !== 0
+              ? "translateX(10%)"
+              : "none",
         }}
       >
+        <motion.img
+          src={item.image}
+          alt={item.title}
+          variants={imageVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="card-Image hidden md:block w-2/5 h-auto object-cover rounded-2xl shadow-2xl"
+          style={{ maxHeight: "300px", objectPosition: "50% 0" }}
+        />
+
         <motion.div
-          className="text-6xl mb-6 flex justify-center"
-          variants={iconVariants}
+          variants={cardVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           whileHover="hover"
+          onHoverStart={() => setActiveCard(index)}
+          onHoverEnd={() => setActiveCard(null)}
+          className="relative card-Box w-full md:w-2/5 p-8 rounded-2xl backdrop-blur-lg border-2 shadow-2xl cursor-pointer"
+          style={{
+            background: isActive ? `${item.color}20` : "rgba(17, 24, 39, 0.4)",
+            borderColor: item.color,
+            boxShadow: isActive ? `0 0 25px ${item.color}40` : undefined,
+          }}
         >
-          {item.icon}
-        </motion.div>
-
-        <motion.div
-          variants={contentVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.h3
-            className="text-2xl md:text-3xl font-bold mb-4 text-center"
-            style={{ color: item.color }}
+          <motion.div
+            className="text-6xl mb-6 flex justify-center"
+            variants={iconVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            whileHover="hover"
           >
-            {item.title}
-          </motion.h3>
+            {item.icon}
+          </motion.div>
 
-          <motion.p
-            className="text-base md:text-lg leading-relaxed text-gray-300 text-center"
-            dangerouslySetInnerHTML={{ __html: item.description }}
-          />
-        </motion.div>
+          <motion.div
+            variants={contentVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            <motion.h3
+              className="text-2xl md:text-3xl font-bold mb-4 text-center"
+              style={{ color: item.color }}
+            >
+              {item.title}
+            </motion.h3>
 
-        <AnimatePresence>
-          {isActive && (
-            <motion.div
-              className="absolute inset-0 rounded-2xl"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              style={{
-                backgroundColor: `${item.color}33`,
-                filter: "blur(20px)",
-                zIndex: -1,
-              }}
+            <motion.p
+              className="text-base md:text-lg leading-relaxed text-gray-300 text-center"
+              dangerouslySetInnerHTML={{ __html: item.description }}
             />
-          )}
-        </AnimatePresence>
+          </motion.div>
+
+          <AnimatePresence>
+            {isActive && (
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                  backgroundColor: `${item.color}33`,
+                  filter: "blur(20px)",
+                  zIndex: -1,
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
       </motion.div>
     </div>
   );
 };
 
+
 const Features = () => {
   const sectionRef = useRef(null);
-  const [activeCard, setActiveCard] = useState(0);
+  const [activeCard, setActiveCard] = useState(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
 
@@ -201,7 +249,7 @@ const Features = () => {
       .map(
         (char, i) =>
           `<span class="char" style="display: inline-block; transition: transform 0.6s ease;">${
-            char === " " ? "&nbsp;" : char
+            char === " " ? " " : char
           }</span>`
       )
       .join("");
@@ -279,8 +327,9 @@ const Features = () => {
           style={{
             backgroundColor: "#007BFF",
             boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)",
-            height: useTransform(timelineProgress, (value) =>
-              `${Math.min(100, Math.max(0, value))}%`
+            height: useTransform(
+              timelineProgress,
+              (value) => `${Math.min(100, Math.max(0, value))}%`
             ),
           }}
           initial={{ height: "0%" }}
@@ -304,12 +353,13 @@ const Features = () => {
             opacity: subtitleOpacity,
           }}
         >
-          From viral moments to inspiring millions - discover the story behind the journey
+          From viral moments to inspiring millions - discover the story behind
+          the journey
         </motion.p>
       </div>
 
       <div
-        className="relative mx-auto flex w-full max-w-6xl flex-col gap-32 px-4"
+        className="relative mx-auto flex w-full max-w-7xl flex-col gap-32 px-4"
         style={{ zIndex: 3 }}
       >
         {journeyCards.map((item, index) => (

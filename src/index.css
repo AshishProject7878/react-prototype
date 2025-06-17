@@ -509,7 +509,16 @@ body {
   .con-main{
     margin-top: -75px;
   }
-  
+
+  .card-Image {
+    display: none;
+  }
+.card-Box:nth-child(even) {
+  transform: translateX(-50%);
+}
+.card-Box:nth-child(odd) {
+  transform: translateX(10%);
+}
 }
 
 .animated-gradient {
