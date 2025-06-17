@@ -40,7 +40,7 @@ const About = () => {
         scale: 1.2, 
       })
       .to(".knowImg", {
-        marginTop: "40%", 
+        marginTop: "50%", 
         left: "13%",
         scale: 1.2, 
       })
