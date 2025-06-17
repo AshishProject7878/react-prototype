@@ -96,20 +96,19 @@ const Hero = () => {
       </div>
 
       {/* Bottom Center - Image */}
-      {/* Bottom Center - Image */}
-<div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
-  <div className="relative">
-    <div className="w-max h-max rounded-t-full flex items-end justify-center text-white text-lg font-medium">
-      <div className="bottom-image-section text-center">
-        <img
-          src="img/LogoImage.png"
-          alt="Devarshi's Image"
-          className="w-[60vw] h-[80vh] object-contain"
-        />
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="relative">
+          <div className="w-max h-max rounded-t-full flex items-end justify-center text-white text-lg font-medium">
+            <div className="bottom-image-section text-center">
+              <img
+                src="img/LogoImage.png"
+                alt="Devarshi's Image"
+                className="w-[80vw] h-[90vh] max-h-[600px] object-contain"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
     </div>
   );
 };
