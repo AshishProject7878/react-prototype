@@ -522,3 +522,7 @@ body {
 .AboutFlex img{
   left: 0;
 }
+
+.bottom-image-section img {
+  max-width: 800px; 
+}
