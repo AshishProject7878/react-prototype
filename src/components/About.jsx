@@ -11,7 +11,7 @@ const About = () => {
   const isMobile = window.matchMedia("(max-width: 640px)").matches;
 
   if (isMobile) {
-    gsap.set(".about-image img", { opacity: 1, scale: 1.5 });
+    gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
     gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
 
     // Set initial clip-path as a small circle
@@ -42,6 +42,7 @@ const About = () => {
       .to(".knowImg", {
         marginTop: "40%", 
         left: "13%",
+        scale: 1.2, 
       })
       .to(
         ".AboutFlexP",
