@@ -8,7 +8,57 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    const clipAnimation = gsap.timeline({
+  const isMobile = window.matchMedia("(max-width: 640px)").matches;
+
+  if (isMobile) {
+    gsap.set(".about-image img", { opacity: 1, scale: 1 });
+    gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
+
+    // Set initial clip-path as a small circle
+    gsap.set(".mask-clip-path", {
+      clipPath: "ellipse(40% 20% at 50% 50%)", // width: 40%, height: 20%
+    });
+
+    const mobileTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#clip",
+        start: "top top",
+        end: "+=500",
+        scrub: 0.5,
+        pin: true,
+        pinSpacing: true,
+        // markers: true,
+      },
+    });
+
+    mobileTimeline
+      // Animate the ellipse to grow more vertically (height increases)
+      .to(".mask-clip-path", {
+        clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
+        ease: "power1.inOut",
+        duration: 1,
+        scale: 1.2, 
+      })
+      .to(".knowImg", {
+        marginTop: "28%", 
+        left: "5%",
+      })
+      .to(
+        ".AboutFlexP",
+        {
+          y: 150,
+          opacity: 1,
+          zIndex: 1,
+          duration: 1,
+          scale: .9,
+          
+        },
+        "-=0.5"
+      );
+
+  } else {
+    // 🔹 Desktop scrollTrigger animation
+    const desktopTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: "#clip",
         start: "center center",
@@ -16,15 +66,19 @@ const About = () => {
         scrub: 0.5,
         pin: true,
         pinSpacing: false,
+        // markers: true,
       },
     });
 
-    clipAnimation.to(".mask-clip-path", {
+    desktopTimeline.to(".mask-clip-path", {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
     });
-  });
+  }
+});
+
+
 
   return (
     <div id="about" className="min-h-screen w-screen">
@@ -41,7 +95,7 @@ const About = () => {
           <img
             src="img/KnowMe.png"
             alt="Background"
-            className="absolute left-5 top-0 size-fit object-contain z-10"
+            className="absolute left-5 top-0 size-fit object-contain z-10 knowImg"
           />
           <p className="AboutFlexP absolute right-12 top-1/2 transform -translate-y-1/2 max-w-xl text-right text-lg leading-relaxed text-white">
             I'm <span className="font-semibold text-primary">Devarshi</span> — the guy who jumped into a coffin on MTV Roadies Season 6

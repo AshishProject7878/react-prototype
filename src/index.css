@@ -316,6 +316,12 @@ body {
   .skip-btn {
     visibility: hidden;
   }
+
+  .mask-clip-path {
+  clip-path: circle(40% at 50% 50%);
+  /* background-color: #fff; */
+  margin-top: -20%;
+  }
 }
 
 .funky-text {
@@ -445,6 +451,7 @@ body {
     padding: 1.5rem;
     gap: 1rem;
     margin-left: 10px;
+    margin-bottom: -20%;
   }
 
   .AboutFlexP {
@@ -452,10 +459,10 @@ body {
     font-size: 14px;
     text-align: left;
     text-align-last: left;
-    margin-top: 40%;
-    margin-bottom: -500px;
-    right: 40px !important;
-    width: 330px;
+    margin-top: 25%;
+    margin-bottom: 50%;
+    right: 22% !important;
+    width: 250px;
   }
 
   .about-image{
@@ -469,6 +476,7 @@ body {
     margin-top: 50px;
     left: 30%;
     position: absolute;
+    margin-top: 50%;
   }
 
   .animated-title{
@@ -501,7 +509,7 @@ body {
   .con-main{
     margin-top: -75px;
   }
-
+  
 }
 
 .animated-gradient {
