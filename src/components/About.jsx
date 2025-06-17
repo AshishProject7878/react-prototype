@@ -41,7 +41,7 @@ const About = () => {
       })
       .to(".knowImg", {
         marginTop: "40%", 
-        left: "15%",
+        left: "13%",
       })
       .to(
         ".AboutFlexP",
