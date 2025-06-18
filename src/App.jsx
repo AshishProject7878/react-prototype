@@ -10,6 +10,53 @@ import Story from './components/Story.jsx';
 const VideoLoader = ({ onComplete }) => {
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const attemptAutoplay = async () => {
+      if (videoRef.current) {
+        try {
+          // Set all possible attributes for iOS compatibility
+          videoRef.current.muted = true;
+          videoRef.current.playsInline = true;
+          videoRef.current.autoplay = true;
+          videoRef.current.defaultMuted = true;
+          
+          // Force load the video
+          videoRef.current.load();
+          
+          // Multiple play attempts with different timing
+          setTimeout(async () => {
+            try {
+              await videoRef.current.play();
+            } catch (error) {
+              console.log('First play attempt failed:', error);
+              
+              // Second attempt after a short delay
+              setTimeout(async () => {
+                try {
+                  await videoRef.current.play();
+                } catch (secondError) {
+                  console.log('Second play attempt failed:', secondError);
+                  
+                  // If all attempts fail, skip after 2 seconds
+                  setTimeout(() => {
+                    handleSkip();
+                  }, 2000);
+                }
+              }, 100);
+            }
+          }, 50);
+          
+        } catch (error) {
+          console.error('Video setup failed:', error);
+          handleSkip();
+        }
+      }
+    };
+
+    attemptAutoplay();
+  }, []);
 
   const handleVideoEnd = () => {
     setIsVideoEnded(true);
@@ -38,21 +85,33 @@ const VideoLoader = ({ onComplete }) => {
   return (
     <div className={`custom-div fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-500 ${isVideoEnded ? 'opacity-0' : 'opacity-100'}`}>
       <video
-  className="custom-video w-full max-h-[95vh] object-cover"
-  style={{
-    WebkitTouchCallout: 'none',
-    WebkitUserSelect: 'none',
-    WebkitTapHighlightColor: 'transparent',
-  }}
-  autoPlay
-  muted
-  playsInline
-  onEnded={handleVideoEnd}
-  onError={() => {
-    console.error('Video failed to load');
-    handleSkip();
-  }}
->
+        ref={videoRef}
+        className="custom-video w-full max-h-[95vh] object-cover"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        defaultMuted
+        webkit-playsinline="true"
+        x-webkit-airplay="allow"
+        onEnded={handleVideoEnd}
+        onLoadedData={() => {
+          // Try to play when data is loaded
+          if (videoRef.current) {
+            videoRef.current.play().catch(console.error);
+          }
+        }}
+        onCanPlay={() => {
+          // Try to play when video can play
+          if (videoRef.current) {
+            videoRef.current.play().catch(console.error);
+          }
+        }}
+        onError={() => {
+          console.error('Video failed to load');
+          handleSkip();
+        }}
+      >
         <source src="videos/Logo3.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -87,10 +146,10 @@ const App = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setShowNav(!entry.isIntersecting); // Show Nav when Hero is out of view
+        setShowNav(!entry.isIntersecting);
       },
       {
-        threshold: 0.3, // Adjust how much of Hero needs to be visible to hide Nav
+        threshold: 0.3,
       }
     );
 

@@ -556,21 +556,20 @@ body {
   }
 
   .bottomRight {
-    bottom: 2%;
+    top: 20%;
     left: 2%;
-    background-color: #1c1c1c;
-    padding: 10px 20px;
+    padding: 5px 10px;
     width: 360px;
-    opacity: 0.8;
   }
 
   .knowText {
-    font-size: 25px;
+    font-size: 11px;
+    margin-bottom: -5px;
   }
 
   .KnowName {
-    font-size: 15px;
-    margin-bottom: -1px;
+    font-size: 24px;
+    margin-bottom: 1px;
   }
 
   .timelineDot {
