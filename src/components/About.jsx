@@ -41,7 +41,7 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "200dvh",
+          height: "350dvh",
         })
         .to(".knowImg", {
           left: "13%",
