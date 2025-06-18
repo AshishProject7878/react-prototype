@@ -44,5 +44,6 @@
 
   #about{
     margin-bottom: -200%;
+    height: 50vh !important;
   }
 }
