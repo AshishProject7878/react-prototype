@@ -27,7 +27,7 @@ const About = () => {
         scrollTrigger: {
           trigger: "#clip",
           start: "top top",
-          end: "+=700",
+          end: "+=500",
           scrub: 0.5,
           pin: true,
           pinSpacing: true,

@@ -468,6 +468,11 @@ body {
     width: 250px;
   }
 
+  .about-image {
+    width: 100vw;
+    height: 100vh;
+  }
+
   .about-image img {
     width: 250px;
     height: 200px;
@@ -696,7 +701,7 @@ body {
 
   .bottom-image-section img {
     max-width: 100%;
-    height: 42rem;
+    height: 44rem;
     object-fit: cover;
   }
 }
