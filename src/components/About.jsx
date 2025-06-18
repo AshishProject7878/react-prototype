@@ -27,7 +27,7 @@ const About = () => {
         scrollTrigger: {
           trigger: "#clip",
           start: "top top",
-          end: "+=500",
+          end: "+=1000",
           scrub: 0.5,
           pin: true,
           pinSpacing: true,
@@ -42,7 +42,7 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "996vh",
+          height: "996dvh",
         })
         .to(".knowImg", {
           left: "13%",
@@ -74,7 +74,7 @@ const About = () => {
         scrollTrigger: {
           trigger: "#clip",
           start: "top top",
-          end: "+=500",
+          end: "+=1000",
           scrub: 0.5,
           pin: true,
           pinSpacing: true,
@@ -88,7 +88,7 @@ const About = () => {
           clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
           ease: "power1.inOut",
           duration: 1,
-          height: "158vh",
+          height: "158dvh",
           scale: 1.2,
         })
         .to(".knowImg", {
@@ -118,7 +118,7 @@ const About = () => {
           end: "+=1500 bottom",
           scrub: 0.5,
           pin: true,
-          height: "360vh",
+          height: "360dvh",
           pinSpacing: true,
           // markers: true,
         },
@@ -126,14 +126,14 @@ const About = () => {
 
       desktopTimeline.to(".mask-clip-path", {
         width: "100vw",
-        height: "360vh",
+        height: "360dvh",
         borderRadius: 0,
       });
     }
   });
 
   return (
-    <div id="about" className="min-h-[310vh] w-screen">
+    <div id="about" className="min-h-[310dvh] w-screen">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
         <AnimatedTitle1
           title="Know Me"
