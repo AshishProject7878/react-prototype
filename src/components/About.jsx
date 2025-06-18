@@ -7,23 +7,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    // Dynamic device detection
+    // Enhanced device detection
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const aspectRatio = screenWidth / screenHeight;
-    const isMobile = screenWidth <= 768; // General mobile detection
+    const isMobile = screenWidth <= 768;
     
-    // Calculate dynamic values based on screen dimensions
+    // More comprehensive responsive calculations
     const getResponsiveValues = () => {
-      const baseWidth = 375; // iPhone reference width
-      const baseHeight = 667; // iPhone reference height
+      // Base reference values
+      const baseWidth = 375;
+      const baseHeight = 667;
       
-      const widthScale = screenWidth / baseWidth;
-      const heightScale = screenHeight / baseHeight;
+      const widthRatio = screenWidth / baseWidth;
+      const heightRatio = screenHeight / baseHeight;
       
-      // Dynamic height calculation based on screen size
+      // Dynamic height with more granular control
       let dynamicHeight;
-      if (screenHeight <= 700) {
+      if (screenHeight <= 600) {
+        dynamicHeight = "350dvh";
+      } else if (screenHeight <= 700) {
         dynamicHeight = "400dvh";
       } else if (screenHeight <= 800) {
         dynamicHeight = "450dvh";
@@ -33,40 +35,71 @@ const About = () => {
         dynamicHeight = "550dvh";
       }
       
-      // Dynamic Y position for AboutFlexP based on screen height
+      // Improved Y positioning to prevent text cutoff
       let dynamicY;
-      if (screenHeight <= 700) {
+      let dynamicScale;
+      
+      if (screenHeight <= 600) {
+        // Very small screens
+        dynamicY = 20;
+        dynamicScale = 0.75;
+      } else if (screenHeight <= 700) {
+        // Small screens  
         dynamicY = 50;
+        dynamicScale = 0.8;
       } else if (screenHeight <= 800) {
-        dynamicY = 150;
+        // Medium screens
+        dynamicY = 120;
+        dynamicScale = 0.85;
       } else if (screenHeight <= 900) {
-        dynamicY = 250;
+        // Large screens
+        dynamicY = 200;
+        dynamicScale = 0.9;
       } else {
+        // Extra large screens
         dynamicY = 300;
+        dynamicScale = 0.9;
       }
       
-      // Dynamic positioning for knowImg
-      const dynamicLeft = Math.max(10, Math.min(15, 13 * widthScale));
-      const dynamicTop = Math.max(5, Math.min(10, 7.2 * heightScale));
+      // Image positioning with better scaling
+      const imageLeft = screenWidth <= 400 ? "8%" : "13%";
+      const imageTop = screenHeight <= 700 ? "5%" : "7.2%";
+      const imageScale = Math.max(1.0, Math.min(1.4, 1.2 * widthRatio));
       
       return {
         height: dynamicHeight,
         yPosition: dynamicY,
-        leftPosition: `${dynamicLeft}%`,
-        topPosition: `${dynamicTop}%`,
-        scale: Math.max(0.8, Math.min(1.3, widthScale))
+        textScale: dynamicScale,
+        imageLeft: imageLeft,
+        imageTop: imageTop,
+        imageScale: imageScale
       };
     };
 
     if (isMobile) {
-      const responsiveValues = getResponsiveValues();
+      const values = getResponsiveValues();
       
-      gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
-      gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
+      // Clear any existing animations
+      gsap.killTweensOf([".about-image img", ".AboutFlexP", ".mask-clip-path", ".knowImg"]);
+      
+      // Set initial states with more precise control
+      gsap.set(".about-image img", { 
+        opacity: 1, 
+        scale: values.imageScale,
+        clearProps: "transform" // Clear any conflicting transforms
+      });
+      
+      gsap.set(".AboutFlexP", { 
+        y: -100, 
+        zIndex: -1,
+        opacity: 0,
+        scale: values.textScale,
+        clearProps: "transform" // Clear conflicting transforms
+      });
 
-      // Set initial clip-path as a small circle
       gsap.set(".mask-clip-path", {
-        clipPath: "ellipse(40% 20% at 50% 50%)", // width: 40%, height: 20%
+        clipPath: "ellipse(40% 20% at 50% 50%)",
+        clearProps: "transform"
       });
 
       const mobileTimeline = gsap.timeline({
@@ -77,37 +110,44 @@ const About = () => {
           scrub: 0.5,
           pin: true,
           pinSpacing: true,
+          refreshPriority: 1, // Higher priority for refresh
+          onRefresh: () => {
+            // Recalculate on refresh to handle orientation changes
+            const newValues = getResponsiveValues();
+            gsap.set(".AboutFlexP", { scale: newValues.textScale });
+          }
         },
       });
 
       mobileTimeline
-        // Animate the ellipse to grow more vertically (height increases)
         .to(".mask-clip-path", {
-          clipPath: "ellipse(70% 70% at 50% 50%)", // width and height both increased
+          clipPath: "ellipse(70% 70% at 50% 50%)",
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: responsiveValues.height,
+          height: values.height,
         })
         .to(".knowImg", {
-          left: responsiveValues.leftPosition,
-          scale: responsiveValues.scale,
-          top: responsiveValues.topPosition,
+          left: values.imageLeft,
+          scale: values.imageScale,
+          top: values.imageTop,
+          ease: "power2.out",
         })
         .to(
           ".AboutFlexP",
           {
-            y: responsiveValues.yPosition,
+            y: values.yPosition,
             opacity: 1,
             zIndex: 1,
             duration: 1,
-            scale: 0.9,
+            scale: values.textScale,
             top: "15%",
+            ease: "power2.out",
           },
           "-=0.5"
         );
     } else {
-      // Desktop scrollTrigger animation (unchanged)
+      // Desktop timeline (unchanged)
       const desktopTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: "#clip",
@@ -117,7 +157,6 @@ const About = () => {
           pin: true,
           height: "360dvh",
           pinSpacing: true,
-          // markers: true,
         },
       });
 
@@ -127,6 +166,18 @@ const About = () => {
         borderRadius: 0,
       });
     }
+
+    // Handle resize events to prevent glitches
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   });
 
   return (
