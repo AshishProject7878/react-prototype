@@ -530,7 +530,7 @@ body {
 
   #about{
     height: 50vh !important;
-    margin-bottom: -50% !important;
+    margin-bottom: -150% !important;
   }
 }
 
@@ -617,7 +617,7 @@ body {
     top: 20%;
   }
 
-  .AboutFlex {
+  /* .AboutFlex {
     flex-direction: column;
     padding: 1.5rem;
     gap: 1rem;
@@ -656,7 +656,7 @@ body {
   #about{
     height: 50vh !important;
     margin-bottom: -50% !important;
-  }
+  } */
 
   .animated-title {
     font-size: 5rem;
