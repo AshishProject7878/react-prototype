@@ -464,7 +464,7 @@ body {
     text-align: left;
     text-align-last: left;
     margin-top: 35%;
-    margin-bottom: 50%;
+    margin-bottom: -50%;
     right: 22% !important;
     width: 250px;
   }
@@ -632,7 +632,7 @@ body {
     text-align: left;
     text-align-last: left;
     margin-top: 35%;
-    margin-bottom: 50%;
+    margin-bottom: -80%;
     right: 22% !important;
     width: 250px;
   }

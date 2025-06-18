@@ -58,7 +58,6 @@ const About = () => {
             duration: 1,
             scale: 0.9,
             top: "15%",
-            marginBottom: "-50%",
           },
           "-=0.5"
         );
