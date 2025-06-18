@@ -512,11 +512,6 @@ body {
     transform: translateX(10%);
   }
 
-  #about {
-    height: 250vh !important;
-    margin-bottom: -150% !important;
-  }
-
   .desktop-know {
     display: none;
   }
