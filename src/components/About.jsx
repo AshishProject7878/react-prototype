@@ -70,7 +70,7 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: responsiveValues.height,
+          height: "450vh",
         })
         .to(".knowImg", {
           left: responsiveValues.leftPosition,
