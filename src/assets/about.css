@@ -1,0 +1,48 @@
+@media (max-width: 768px) {
+  .desktop-know {
+    display: none !important;
+  }
+
+  .mobile-know {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+
+  .mask-clip-path {
+    clip-path: none !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+  }
+
+  .mobile-know .knowImg {
+    width: 90% !important;
+    max-width: 400px !important;
+    height: 20rem !important;
+    object-fit: contain !important;
+    margin-top: 13rem;
+  }
+
+  .mobile-know .AboutFlexP {
+    text-align: left !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    padding: 0 1rem !important;
+    margin-top: 0rem !important;
+    max-width: 100% !important;
+  }
+
+  .AboutFlex {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  #about{
+    margin-bottom: -180% !important;
+  }
+}
