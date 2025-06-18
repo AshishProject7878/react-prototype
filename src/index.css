@@ -530,7 +530,7 @@ body {
 
   #about{
     height: 50vh !important;
-    margin-bottom: -100%;
+    margin-bottom: -50% !important;
   }
 }
 
@@ -655,7 +655,7 @@ body {
 
   #about{
     height: 50vh !important;
-    margin-bottom: -100%;
+    margin-bottom: -50% !important;
   }
 
   .animated-title {
