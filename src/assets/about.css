@@ -43,7 +43,7 @@
   }
 
   #about {
-  min-height: 300vh !important; /* ensures full scroll height */
+  min-height: 120vh !important; /* ensures full scroll height */
   padding-bottom: 10vh !important; /* some breathing space at bottom */
     }
 }
