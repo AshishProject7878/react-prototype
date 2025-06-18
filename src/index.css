@@ -568,15 +568,6 @@ body {
     padding: 1rem;
   }
 
-  .bottom-image-section .image-wrapper {
-    height: 10rem;
-    max-width: 100%;
-  }
-
-  /* .bottom-img-hero{
-    height: 20px;
-  } */
-
   .moba {
     opacity: 1;
     width: 100vw;
@@ -734,6 +725,6 @@ body {
   left: 0;
 }
 
-.bottom-image-section img {
+/* .bottom-image-section img {
   max-width: 800px;
-}
+} */
