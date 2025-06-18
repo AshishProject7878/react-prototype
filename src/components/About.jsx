@@ -10,9 +10,9 @@ const About = () => {
     const isMobile = window.matchMedia(
       "(max-width: 640px)"
     ).matches;
-    // const isMobile1 = window.matchMedia(
-    //   "(max-width: 440px) and (min-height: 800px) and (max-height: 999px)"
-    // ).matches;
+    const isMobile1 = window.matchMedia(
+      "(height: 844px)"
+    ).matches;
 
     if (isMobile) {
       gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
@@ -61,6 +61,55 @@ const About = () => {
           "-=0.5"
         );
     } 
+
+    else if (isMobile1) {
+      gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
+      gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
+
+      // Set initial clip-path as a small circle
+      gsap.set(".mask-clip-path", {
+        clipPath: "ellipse(40% 20% at 50% 50%)", // width: 40%, height: 20%
+      });
+
+      const mobileTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#clip",
+          start: "top top",
+          end: "+=500",
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
+        },
+      });
+
+      mobileTimeline
+        // Animate the ellipse to grow more vertically (height increases)
+        .to(".mask-clip-path", {
+          clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
+          ease: "power1.inOut",
+          duration: 1,
+          scale: 1.2,
+          height: "450dvh",
+        })
+        .to(".knowImg", {
+          left: "13%",
+          scale: 1.2,
+          top: "7.2%",
+        })
+        .to(
+          ".AboutFlexP",
+          {
+            y: 250,
+            opacity: 1,
+            zIndex: 1,
+            duration: 1,
+            scale: 0.9,
+            top: "15%",
+          },
+          "-=0.5"
+        );
+    }
+
      else {
       // 🔹 Desktop scrollTrigger animation
       const desktopTimeline = gsap.timeline({
