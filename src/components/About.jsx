@@ -51,7 +51,7 @@ const About = () => {
         .to(
           ".AboutFlexP",
           {
-            y: 100,
+            y: 50,
             opacity: 1,
             zIndex: 1,
             duration: 1,
