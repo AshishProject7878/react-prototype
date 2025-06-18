@@ -27,11 +27,10 @@ const About = () => {
         scrollTrigger: {
           trigger: "#clip",
           start: "top top",
-          end: "+=500",
+          end: "+=700",
           scrub: 0.5,
           pin: true,
           pinSpacing: true,
-          // markers: true,
         },
       });
 
@@ -42,7 +41,7 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "156dvh",
+          height: "170dvh",
         })
         .to(".knowImg", {
           left: "13%",
@@ -62,52 +61,6 @@ const About = () => {
           "-=0.5"
         );
     } 
-    // else if (isMobile1) {
-    //   gsap.set(".about-image img", { opacity: 1, scale: 1.1 });
-    //   gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
-
-    //   gsap.set(".mask-clip-path", {
-    //     clipPath: "ellipse(40% 20% at 50% 50%)", 
-    //   });
-
-    //   const mobileTimeline = gsap.timeline({
-    //     scrollTrigger: {
-    //       trigger: "#clip",
-    //       start: "top top",
-    //       end: "+=500",
-    //       scrub: 0.5,
-    //       pin: true,
-    //       pinSpacing: true,
-    //     },
-    //   });
-
-    //   mobileTimeline
-    //     .to(".mask-clip-path", {
-    //       clipPath: "ellipse(70% 70% at 50% 50%)", 
-    //       ease: "power1.inOut",
-    //       duration: 1,
-    //       height: "158dvh",
-    //       scale: 1.2,
-    //     })
-    //     .to(".knowImg", {
-    //       top: "18%",
-    //       left: "10%",
-    //       scale: 1.2,
-    //       marginTop: "0px",
-    //     })
-    //     .to(
-    //       ".AboutFlexP",
-    //       {
-    //         y: 150,
-    //         opacity: 1,
-    //         zIndex: 1,
-    //         duration: 1,
-    //         scale: 0.9,
-    //         top: "15%",
-    //       },
-    //       "-=0.5"
-    //     );
-    // }
      else {
       // 🔹 Desktop scrollTrigger animation
       const desktopTimeline = gsap.timeline({
