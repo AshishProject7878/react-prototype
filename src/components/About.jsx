@@ -57,7 +57,7 @@ const About = () => {
             zIndex: 1,
             duration: 1,
             scale: 0.9,
-            top: "8.5%",
+            top: "10%",
           },
           "-=0.5"
         );
@@ -105,7 +105,7 @@ const About = () => {
             zIndex: 1,
             duration: 1,
             scale: 0.9,
-            top: "13.5%",
+            top: "15%",
           },
           "-=0.5"
         );
