@@ -7,14 +7,60 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    const isMobile = window.matchMedia(
-      "(max-width: 640px)"
-    ).matches;
-    const isMobile1 = window.matchMedia(
-      "(height: 844px)"
-    ).matches;
+    // Dynamic device detection
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const aspectRatio = screenWidth / screenHeight;
+    const isMobile = screenWidth <= 768; // General mobile detection
+    
+    // Calculate dynamic values based on screen dimensions
+    const getResponsiveValues = () => {
+      const baseWidth = 375; // iPhone reference width
+      const baseHeight = 667; // iPhone reference height
+      
+      const widthScale = screenWidth / baseWidth;
+      const heightScale = screenHeight / baseHeight;
+      
+      // Dynamic height calculation based on screen size
+      let dynamicHeight;
+      if (screenHeight <= 700) {
+        dynamicHeight = "400dvh";
+      } else if (screenHeight <= 800) {
+        dynamicHeight = "450dvh";
+      } else if (screenHeight <= 900) {
+        dynamicHeight = "500dvh";
+      } else {
+        dynamicHeight = "550dvh";
+      }
+      
+      // Dynamic Y position for AboutFlexP based on screen height
+      let dynamicY;
+      if (screenHeight <= 700) {
+        dynamicY = 50;
+      } else if (screenHeight <= 800) {
+        dynamicY = 150;
+      } else if (screenHeight <= 900) {
+        dynamicY = 250;
+      } else {
+        dynamicY = 300;
+      }
+      
+      // Dynamic positioning for knowImg
+      const dynamicLeft = Math.max(10, Math.min(15, 13 * widthScale));
+      const dynamicTop = Math.max(5, Math.min(10, 7.2 * heightScale));
+      
+      return {
+        height: dynamicHeight,
+        yPosition: dynamicY,
+        leftPosition: `${dynamicLeft}%`,
+        topPosition: `${dynamicTop}%`,
+        scale: Math.max(0.8, Math.min(1.3, widthScale))
+      };
+    };
 
     if (isMobile) {
+      const responsiveValues = getResponsiveValues();
+      
       gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
       gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
 
@@ -37,21 +83,21 @@ const About = () => {
       mobileTimeline
         // Animate the ellipse to grow more vertically (height increases)
         .to(".mask-clip-path", {
-          clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
+          clipPath: "ellipse(70% 70% at 50% 50%)", // width and height both increased
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "450dvh",
+          height: responsiveValues.height,
         })
         .to(".knowImg", {
-          left: "13%",
-          scale: 1.2,
-          top: "7.2%",
+          left: responsiveValues.leftPosition,
+          scale: responsiveValues.scale,
+          top: responsiveValues.topPosition,
         })
         .to(
           ".AboutFlexP",
           {
-            y: 50,
+            y: responsiveValues.yPosition,
             opacity: 1,
             zIndex: 1,
             duration: 1,
@@ -60,58 +106,8 @@ const About = () => {
           },
           "-=0.5"
         );
-    } 
-
-    else if (isMobile1) {
-      gsap.set(".about-image img", { opacity: 1, scale: 1.3 });
-      gsap.set(".AboutFlexP", { y: -100, zIndex: -1 });
-
-      // Set initial clip-path as a small circle
-      gsap.set(".mask-clip-path", {
-        clipPath: "ellipse(40% 20% at 50% 50%)", // width: 40%, height: 20%
-      });
-
-      const mobileTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#clip",
-          start: "top top",
-          end: "+=500",
-          scrub: 0.5,
-          pin: true,
-          pinSpacing: true,
-        },
-      });
-
-      mobileTimeline
-        // Animate the ellipse to grow more vertically (height increases)
-        .to(".mask-clip-path", {
-          clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
-          ease: "power1.inOut",
-          duration: 1,
-          scale: 1.2,
-          height: "550dvh",
-        })
-        .to(".knowImg", {
-          left: "13%",
-          scale: 1.2,
-          top: "7.2%",
-        })
-        .to(
-          ".AboutFlexP",
-          {
-            y: 300,
-            opacity: 1,
-            zIndex: 1,
-            duration: 1,
-            scale: 0.9,
-            top: "15%",
-          },
-          "-=0.5"
-        );
-    }
-
-     else {
-      // 🔹 Desktop scrollTrigger animation
+    } else {
+      // Desktop scrollTrigger animation (unchanged)
       const desktopTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: "#clip",
@@ -165,12 +161,12 @@ const About = () => {
             </span>
             <br />
             <br />
-            I’m Devarshi — the guy who lit up MTV Roadies 6.0 and carried that
+            I'm Devarshi — the guy who lit up MTV Roadies 6.0 and carried that
             fire into real life.
             <br />
             <br />
-            I’m not your average motivational speaker. I’m the first-ever
-            “Inspirational Comedian” who mixes mic drops with mind-blows, jokes
+            I'm not your average motivational speaker. I'm the first-ever
+            "Inspirational Comedian" who mixes mic drops with mind-blows, jokes
             with josh, and serves it all with a side of Gujarati swag.
             <br />
             <br />
@@ -180,7 +176,7 @@ const About = () => {
             motivation.
             <br />
             <em className="block mt-2 text-primary font-semibold" style={{ color: "#00E6E6" }}>
-              “Be loud. Be real. Be limitless.”
+              "Be loud. Be real. Be limitless."
             </em>
             <br />
             <br />
@@ -197,7 +193,7 @@ const About = () => {
             <br />
             <span className="font-semibold" style={{ color: "#007BFF" }}>Why Me?</span>
             <br />
-            Because I don’t just speak — I spark. With Roadie guts and stand-up
+            Because I don't just speak — I spark. With Roadie guts and stand-up
             soul, I turn laughter into launchpads.
             <br />
             <br />
@@ -206,7 +202,7 @@ const About = () => {
             </span>{" "}
             Expect clarity, chaos, and saying
             <br />
-            <em style={{ color: "#00E6E6" }}>“Bhai, yeh toh fire hai!”</em>
+            <em style={{ color: "#00E6E6" }}>"Bhai, yeh toh fire hai!"</em>
           </p>
         </div>
       </div>
