@@ -43,6 +43,6 @@
   }
 
   #about{
-    height: 150vh !important;
+    margin-bottom: -200%;
   }
 }
