@@ -89,7 +89,7 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "450dvh",
+          height: "550dvh",
         })
         .to(".knowImg", {
           left: "13%",
@@ -99,7 +99,7 @@ const About = () => {
         .to(
           ".AboutFlexP",
           {
-            y: 250,
+            y: 300,
             opacity: 1,
             zIndex: 1,
             duration: 1,
