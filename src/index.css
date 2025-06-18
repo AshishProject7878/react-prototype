@@ -295,8 +295,6 @@ body {
   height: 100vh;
   object-fit: fill;
   object-position: center;
-  -webkit-appearance: none;
-  pointer-events: none;
 }
 
 /* Mobile view - reduce size */

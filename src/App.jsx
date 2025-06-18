@@ -38,16 +38,21 @@ const VideoLoader = ({ onComplete }) => {
   return (
     <div className={`custom-div fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-500 ${isVideoEnded ? 'opacity-0' : 'opacity-100'}`}>
       <video
-        className="custom-video w-full h-full"
-        autoPlay
-        muted
-        playsInline
-        onEnded={handleVideoEnd}
-        onError={() => {
-          console.error('Video failed to load');
-          handleSkip();
-        }}
-      >
+  className="custom-video w-full max-h-[95vh] object-cover"
+  style={{
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    WebkitTapHighlightColor: 'transparent',
+  }}
+  autoPlay
+  muted
+  playsInline
+  onEnded={handleVideoEnd}
+  onError={() => {
+    console.error('Video failed to load');
+    handleSkip();
+  }}
+>
         <source src="videos/Logo3.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
