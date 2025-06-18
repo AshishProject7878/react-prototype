@@ -38,7 +38,8 @@ const About = () => {
   }, []);
 
   return (
-    <div id="about" className="min-h-[310dvh] w-screen">
+    // min-h-[310dvh]
+    <div id="about" className=" w-screen">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5 something-1">
         <AnimatedTitle1
           title="Know Me"

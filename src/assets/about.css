@@ -42,8 +42,6 @@
     align-items: center !important;
   }
 
-  #about{
-    margin-bottom: -380%;
-    height: 50vh !important;
-  }
+  /* #about{
+  } */
 }
