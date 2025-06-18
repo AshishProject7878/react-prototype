@@ -42,7 +42,6 @@ const About = () => {
           ease: "power1.inOut",
           duration: 1,
           scale: 1.2,
-          height: "156dvh",
         })
         .to(".knowImg", {
           left: "13%",
@@ -88,7 +87,6 @@ const About = () => {
           clipPath: "ellipse(70% 70% at 50% 50%)", // ⬅️ width and height both increased
           ease: "power1.inOut",
           duration: 1,
-          height: "158dvh",
           scale: 1.2,
         })
         .to(".knowImg", {
