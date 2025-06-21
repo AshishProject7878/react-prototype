@@ -308,7 +308,7 @@ const Features = () => {
             linear-gradient(to right, rgba(120, 144, 156, 0.1) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(120, 144, 156, 0.1) 1px, transparent 1px)
           `,
-          backgroundSize: "60px 60px",
+          backgroundSize: "60px 60px", 
           zIndex: 0,
           y: backgroundY,
         }}
@@ -325,7 +325,7 @@ const Features = () => {
         <motion.div
           className="absolute top-0 w-full shadow-lg rounded-full"
           style={{
-            backgroundColor: "#007BFF",
+            backgroundColor: "#fff",
             boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)",
             height: useTransform(
               timelineProgress,
@@ -360,7 +360,7 @@ const Features = () => {
 
       <div
         className="relative mx-auto flex w-full max-w-7xl flex-col gap-32 px-4"
-        style={{ zIndex: 3 }}
+        style={{ zIndex: 9 }}
       >
         {journeyCards.map((item, index) => (
           <TimelineCard
