@@ -112,7 +112,7 @@ const VideoLoader = ({ onComplete }) => {
           handleSkip();
         }}
       >
-        <source src="videos/Logo3.mp4" type="video/mp4" />
+        <source src="videos/Logo4.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
