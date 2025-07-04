@@ -331,6 +331,15 @@ const PodcastSection = () => {
       duration: "48:27",
       category: "video",
     },
+    {
+      videoId: "yb5tS8KGltk",
+      episode: "05",
+      title: "Roadies Audition, Life, Journey",
+      description:
+        "In this exciting episode, we sit down with Devarshi Patel—entertainer, and former contestant on MTV’s iconic show Roadies.",
+      duration: "1:07:43",
+      category: "video",
+    },
   ];
 
   const videos = podcasts.filter((podcast) => podcast.category === "video");
