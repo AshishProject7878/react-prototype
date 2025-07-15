@@ -370,8 +370,17 @@ const PodcastSection = () => {
 
   const podcasts = [
     {
-      videoId: "yb5tS8KGltk",
+      videoId: "qWM9GSJToNs",
       episode: "01",
+      title: "Raghu - Rajiv vs Devarshi",
+      description:
+        "ENOUGH!!! For close to 17 years, you all have hounded us about our Devarshi audition! So now we've decided to have a round 2 of this epic interview, just for you",
+      duration: "11:19",
+      category: "video",
+    },
+    {
+      videoId: "yb5tS8KGltk",
+      episode: "02",
       title: "Roadies Audition, Life, Journey",
       description:
         "In this exciting episode, we sit down with Devarshi Patel—entertainer, and former contestant on MTV’s iconic show Roadies.",
@@ -380,7 +389,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "GmSJ76YUI3o",
-      episode: "02",
+      episode: "03",
       title: "THE RETURN OF DEVARSHI PATEL",
       description:
         "Devarshi Patel, is an ex Roadies contestant. The man with the most entertaining, viral and remembered Roadies Audition is back with his Motivational talks.",
