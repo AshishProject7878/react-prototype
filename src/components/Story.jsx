@@ -285,7 +285,7 @@ const ReelCard = ({ reel, index }) => {
   return (
     <motion.div
       ref={cardRef}
-      className="reel-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[400px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
+      className="reel-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[630px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
@@ -464,63 +464,54 @@ const PodcastSection = () => {
       reelUrl: "https://www.instagram.com/reel/DMFmexAT1UO/",
       thumbnail: "/img/Raghu.jpg",
       title: "Watch! Because why should we suffer alone??",
-      description: "A hilarious take on Devarshi Patel's Roadies journey.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DL0ACHGhKWr/",
       thumbnail: "/img/reel-1.jpg",
       title: "How Accent Helped Devarshi In Roadies!!",
-      description: "Devarshi shares how his accent became his strength.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLwbOIjBgWI/",
       thumbnail: "/img/reel-2.jpg",
       title: "Devarshi's Roadies Accent Story!!",
-      description: "Another clip on how Devarshi's accent stood out.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLsIsZXBZ0s/",
       thumbnail: "/img/reel-3.jpg",
       title: "Devarshi's Roadies Journey!!",
-      description: "A quick look at Devarshi's memorable Roadies moments.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLpn8VLNdHH/",
       thumbnail: "/img/reel-4.jpg",
       title: "Accent Tips from Devarshi!!",
-      description: "Devarshi gives tips on confidence and accent.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLmEMihtB5f/",
       thumbnail: "/img/reel-5.jpg",
       title: "Devarshi's Roadies Motivation!!",
-      description: "Motivational insights from Devarshi's Roadies experience.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLPua0WMAjK/",
       thumbnail: "/img/buddy.jpg",
       title: "Devarshi and Friends on Roadies!!",
-      description: "Fun moments with Devarshi and his Roadies buddies.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DLNdYP_vCkd/",
       thumbnail: "/img/travel.jpg",
       title: "Devarshi's Roadies Adventures!!",
-      description: "Devarshi's travel stories from Roadies.",
       category: "reel",
     },
     {
       reelUrl: "https://www.instagram.com/reel/DI4VQ7oMlwI/",
       thumbnail: "/img/dance.jpg",
       title: "Devarshi's Roadies Dance Moves!!",
-      description: "Devarshi shows off his dance skills from Roadies.",
       category: "reel",
     },
   ];
