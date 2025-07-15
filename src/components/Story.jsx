@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import AnimatedTitle1 from "./AnimatedTitle";
 
-// Animated Staggered Text Component (unchanged)
+// Animated Staggered Text Component
 const StaggeredText = ({ title, containerClass }) => {
   const titleRef = useRef(null);
   const controls = useAnimation();
@@ -74,7 +74,7 @@ const StaggeredText = ({ title, containerClass }) => {
   );
 };
 
-// Video Card Component (unchanged)
+// Video Card Component
 const VideoCard = ({ podcast, index }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -167,7 +167,7 @@ const VideoCard = ({ podcast, index }) => {
   );
 };
 
-// Short Card Component (modified for mobile responsiveness)
+// Short Card Component
 const ShortCard = ({ podcast, index }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -193,7 +193,7 @@ const ShortCard = ({ podcast, index }) => {
   return (
     <motion.div
       ref={cardRef}
-      className="short-card relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg h-[480px] sm:h-[440px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
+      className="short-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[400px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
@@ -208,23 +208,23 @@ const ShortCard = ({ podcast, index }) => {
         border: "1px solid #333",
       }}
     >
-      <div className="relative backdrop-blur-xl rounded-2xl p-3 flex flex-col h-full">
+      <div className="relative backdrop-blur-xl rounded-3xl p-3 flex flex-col h-full overflow-hidden">
         <motion.div
-          className="rounded-xl overflow-hidden mb-3 aspect-[9/16] flex-shrink-0 w-full"
+          className="rounded-3xl overflow-hidden mb-3 aspect-[9/16] flex-shrink-0 w-full"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
         >
           <iframe
             src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
             title={podcast.title}
-            className="w-full h-full"
+            className="w-full h-full rounded-3xl"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </motion.div>
         <motion.div
-          className="flex-grow min-h-[100px]"
+          className="flex-grow min-h-[80px]"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
@@ -247,7 +247,7 @@ const ShortCard = ({ podcast, index }) => {
           <span>Short</span>
         </motion.div>
         <motion.div
-          className="absolute inset-0 bg-white/5 opacity-0 rounded-2xl pointer-events-none"
+          className="absolute inset-0 bg-white/5 opacity-0 rounded-3xl pointer-events-none"
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         />
@@ -256,7 +256,107 @@ const ShortCard = ({ podcast, index }) => {
   );
 };
 
-// Main Section (modified for mobile visibility of Shorts)
+// Reel Card Component
+const ReelCard = ({ reel, index }) => {
+  const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    }
+  };
+
+  // Fallback thumbnail if none provided
+  const thumbnailUrl = reel.thumbnail || "/img/fallback.jpg";
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className="reel-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[400px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
+      initial={{ opacity: 0, y: 100, rotateX: -45 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
+      viewport={{ once: true, amount: 0.3 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      style={{
+        transition: "transform 0.1s ease-out",
+        transformStyle: "preserve-3d",
+        backgroundColor: "#1C1C1C",
+        border: "1px solid #333",
+      }}
+    >
+      <div className="relative backdrop-blur-xl rounded-3xl p-3 flex flex-col h-full overflow-hidden">
+        <motion.div
+          className="rounded-3xl overflow-hidden mb-3 aspect-[9/16] flex-shrink-0 w-full relative"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          <a href={reel.reelUrl} target="_blank" rel="noopener noreferrer">
+            <img
+              src={thumbnailUrl}
+              alt={reel.title}
+              className="w-full h-full object-cover rounded-3xl"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg
+                className="w-12 h-12 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </a>
+        </motion.div>
+        <motion.div
+          className="flex-grow min-h-[80px]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-sm font-bold text-white mb-1 line-clamp-2">
+            {reel.title}
+          </h3>
+          <p className="text-gray-400 text-[10px] leading-relaxed line-clamp-4">
+            {reel.description}
+          </p>
+        </motion.div>
+        <motion.div
+          className="flex items-center justify-between text-[10px] text-gray-500 mt-1"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
+          viewport={{ once: true }}
+        >
+          <span>Reel</span>
+        </motion.div>
+        <motion.div
+          className="absolute inset-0 bg-white/5 opacity-0 rounded-3xl pointer-events-none"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
+    </motion.div>
+  );
+};
+
+// Main Podcast Section
 const PodcastSection = () => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -270,8 +370,17 @@ const PodcastSection = () => {
 
   const podcasts = [
     {
-      videoId: "GmSJ76YUI3o",
+      videoId: "yb5tS8KGltk",
       episode: "01",
+      title: "Roadies Audition, Life, Journey",
+      description:
+        "In this exciting episode, we sit down with Devarshi Patel—entertainer, and former contestant on MTV’s iconic show Roadies.",
+      duration: "1:07:45",
+      category: "video",
+    },
+    {
+      videoId: "GmSJ76YUI3o",
+      episode: "02",
       title: "THE RETURN OF DEVARSHI PATEL",
       description:
         "Devarshi Patel, is an ex Roadies contestant. The man with the most entertaining, viral and remembered Roadies Audition is back with his Motivational talks.",
@@ -279,17 +388,23 @@ const PodcastSection = () => {
       category: "video",
     },
     {
-      videoId: "XtUFYzY3sW8",
-      episode: "02",
-      title: "Devarshi Patel | Roadies 6 Fame",
-      description:
-        "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
-      duration: "27:59",
-      category: "video",
+      videoId: "XQlj1U-nimo",
+      title: "Raghu - Rajiv vs Devarshi 2",
+      category: "short",
     },
     {
-      videoId: "9mFXHFeEXso",
-      title: "Devarshi Patel gets reality check",
+      videoId: "9Mvx8nGOdDY",
+      title: "How Accent Helped Devarshi In Roadies!!",
+      category: "short",
+    },
+    {
+      videoId: "OG7OOgJfBJE",
+      title: "Devarshi Performs his ICONIC Govinda Govinda",
+      category: "short",
+    },
+    {
+      videoId: "VWVa2HU5mk4",
+      title: "Devarshi Is Rocking On Rockon Song ",
       category: "short",
     },
     {
@@ -305,11 +420,6 @@ const PodcastSection = () => {
     {
       videoId: "lmsmMd_8N4s",
       title: "No One can Replace Devarshi | Raghu Ram",
-      category: "short",
-    },
-    {
-      videoId: "tt6hIwcIOsY",
-      title: "Devarshi Patel",
       category: "short",
     },
     {
@@ -332,18 +442,83 @@ const PodcastSection = () => {
       category: "video",
     },
     {
-      videoId: "yb5tS8KGltk",
+      videoId: "XtUFYzY3sW8",
       episode: "05",
-      title: "Roadies Audition, Life, Journey",
+      title: "Devarshi Patel | Roadies 6 Fame",
       description:
-        "In this exciting episode, we sit down with Devarshi Patel—entertainer, and former contestant on MTV’s iconic show Roadies.",
-      duration: "1:07:43",
+        "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
+      duration: "28:00",
       category: "video",
+    },
+    // Instagram Reels data with local thumbnails
+    {
+      reelUrl: "https://www.instagram.com/reel/DMFmexAT1UO/",
+      thumbnail: "/img/Raghu.jpg",
+      title: "Watch! Because why should we suffer alone??",
+      description: "A hilarious take on Devarshi Patel's Roadies journey.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DL0ACHGhKWr/",
+      thumbnail: "/img/reel-1.jpg",
+      title: "How Accent Helped Devarshi In Roadies!!",
+      description: "Devarshi shares how his accent became his strength.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLwbOIjBgWI/",
+      thumbnail: "/img/reel-2.jpg",
+      title: "Devarshi's Roadies Accent Story!!",
+      description: "Another clip on how Devarshi's accent stood out.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLsIsZXBZ0s/",
+      thumbnail: "/img/reel-3.jpg",
+      title: "Devarshi's Roadies Journey!!",
+      description: "A quick look at Devarshi's memorable Roadies moments.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLpn8VLNdHH/",
+      thumbnail: "/img/reel-4.jpg",
+      title: "Accent Tips from Devarshi!!",
+      description: "Devarshi gives tips on confidence and accent.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLmEMihtB5f/",
+      thumbnail: "/img/reel-5.jpg",
+      title: "Devarshi's Roadies Motivation!!",
+      description: "Motivational insights from Devarshi's Roadies experience.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLPua0WMAjK/",
+      thumbnail: "/img/buddy.jpg",
+      title: "Devarshi and Friends on Roadies!!",
+      description: "Fun moments with Devarshi and his Roadies buddies.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DLNdYP_vCkd/",
+      thumbnail: "/img/travel.jpg",
+      title: "Devarshi's Roadies Adventures!!",
+      description: "Devarshi's travel stories from Roadies.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DI4VQ7oMlwI/",
+      thumbnail: "/img/dance.jpg",
+      title: "Devarshi's Roadies Dance Moves!!",
+      description: "Devarshi shows off his dance skills from Roadies.",
+      category: "reel",
     },
   ];
 
   const videos = podcasts.filter((podcast) => podcast.category === "video");
   const shorts = podcasts.filter((podcast) => podcast.category === "short");
+  const reels = podcasts.filter((podcast) => podcast.category === "reel");
 
   return (
     <div
@@ -357,7 +532,7 @@ const PodcastSection = () => {
         style={{ y, opacity }}
       >
         <div className="relative size-full max-w-7xl mx-auto px-4">
-          {/* Header (unchanged) */}
+          {/* Header */}
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
@@ -368,11 +543,9 @@ const PodcastSection = () => {
             <div className="relative flex flex-col items-center gap-5">
               <AnimatedTitle1
                 title="Featured Podcasts"
-                line="Does this worl?"
+                line="Does this world?"
                 containerClass="mb-5 text-center"
-                style={{
-                  marginTop: "-30px",
-                }}
+                style={{ marginTop: "-30px" }}
               />
             </div>
             <motion.p
@@ -387,7 +560,7 @@ const PodcastSection = () => {
             </motion.p>
           </motion.div>
 
-          {/* Tabs (unchanged) */}
+          {/* Tabs */}
           <div className="flex justify-center mb-8">
             <button
               className={`px-4 py-2 mx-2 text-lg font-semibold rounded-lg transition-colors ${
@@ -409,9 +582,19 @@ const PodcastSection = () => {
             >
               Shorts
             </button>
+            <button
+              className={`px-4 py-2 mx-2 text-lg font-semibold rounded-lg transition-colors ${
+                activeTab === "reels"
+                  ? "bg-white text-black"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("reels")}
+            >
+              Reels
+            </button>
           </div>
 
-          {/* Videos Section (unchanged) */}
+          {/* Videos Section */}
           {activeTab === "videos" && (
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -433,7 +616,7 @@ const PodcastSection = () => {
             </motion.div>
           )}
 
-          {/* Shorts Section (modified for mobile) */}
+          {/* Shorts Section */}
           {activeTab === "shorts" && (
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -442,13 +625,35 @@ const PodcastSection = () => {
               className="mb-16"
             >
               <h3 className="text-2xl font-bold text-white mb-8 text-center">Shorts</h3>
-              <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[440px]">
+              <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
                 {shorts.map((podcast, index) => (
                   <motion.div
                     key={index}
-                    className="rounded-2xl overflow-hidden flex items-center justify-center"
+                    className="rounded-3xl overflow-hidden flex items-center justify-center"
                   >
                     <ShortCard podcast={podcast} index={index} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Reels Section */}
+          {activeTab === "reels" && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-16"
+            >
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Reels</h3>
+              <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
+                {reels.map((reel, index) => (
+                  <motion.div
+                    key={index}
+                    className="rounded-3xl overflow-hidden flex items-center justify-center"
+                  >
+                    <ReelCard reel={reel} index={index} />
                   </motion.div>
                 ))}
               </div>
