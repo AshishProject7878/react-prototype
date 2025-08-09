@@ -155,7 +155,7 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState("");
 
   useEffect(() => {
-    emailjs.init("7E85Be-mzfn5NmnlF");
+    emailjs.init("zXth8WQpgEbcMkioG");
   }, []);
 
   const handleMouseMove = (e) => {
@@ -214,7 +214,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      await emailjs.send("service_bqzf4o6", "template_u8gou5r", {
+      await emailjs.send("service_g89gzx8", "template_rq97w1s", {
         from_name: formData.name,
         from_email: formData.email || "Not provided",
         phone: formData.phone,
@@ -260,7 +260,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      await emailjs.send("service_bqzf4o6", "template_u8gou5r", {
+      await emailjs.send("service_g89gzx8", "template_rq97w1s", {
         from_name: "Anonymous",
         from_email: "ashishproject78782@gmail.com",
         subject: "Quick Message from Website",
