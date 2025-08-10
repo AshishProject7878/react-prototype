@@ -196,19 +196,17 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.subject || !formData.message) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
       setSubmitStatus("error_empty");
       setTimeout(() => setSubmitStatus(""), 3000);
       return;
     }
 
-    if (formData.email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        setSubmitStatus("error_invalid_email");
-        setTimeout(() => setSubmitStatus(""), 3000);
-        return;
-      }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus("error_invalid_email");
+      setTimeout(() => setSubmitStatus(""), 3000);
+      return;
     }
 
     setIsSubmitting(true);
@@ -216,11 +214,11 @@ const Contact = () => {
     try {
       await emailjs.send("service_g89gzx8", "template_rq97w1s", {
         from_name: formData.name,
-        from_email: formData.email || "Not provided",
+        from_email: formData.email,
         phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
-        reply_to: formData.email || "ashishproject78782@gmail.com",
+        reply_to: formData.email,
       });
       setSubmitStatus("success");
       setFormData({
@@ -243,15 +241,14 @@ const Contact = () => {
 
   const handleQuickMessageSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.quickMessage.trim()) {
+    if (!formData.quickMessage.trim() || !formData.quickEmail.trim()) {
       setSubmitStatus("error_empty");
       setTimeout(() => setSubmitStatus(""), 3000);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const quickEmail = formData.quickEmail.trim();
-    if (quickEmail && !emailRegex.test(quickEmail)) {
+    if (!emailRegex.test(formData.quickEmail)) {
       setSubmitStatus("error_invalid_email");
       setTimeout(() => setSubmitStatus(""), 3000);
       return;
@@ -262,11 +259,11 @@ const Contact = () => {
     try {
       await emailjs.send("service_g89gzx8", "template_rq97w1s", {
         from_name: "Anonymous",
-        from_email: "ashishproject78782@gmail.com",
+        from_email: formData.quickEmail,
         subject: "Quick Message from Website",
         message: formData.quickMessage,
-        quick_email: quickEmail || "Not provided",
-        reply_to: quickEmail || "ashishproject78782@gmail.com",
+        quick_email: formData.quickEmail,
+        reply_to: formData.quickEmail,
       });
       setSubmitStatus("success_quick");
       setFormData((prev) => ({ ...prev, quickMessage: "", quickEmail: "" }));
@@ -453,10 +450,10 @@ const Contact = () => {
                       { name: "name", label: "Name*", type: "text", placeholder: "John Doe", required: true },
                       {
                         name: "email",
-                        label: "Email",
+                        label: "Email*",
                         type: "email",
                         placeholder: "john@example.com",
-                        required: false,
+                        required: true,
                       },
                       {
                         name: "phone",
@@ -587,7 +584,8 @@ const Contact = () => {
                           name="quickEmail"
                           value={formData.quickEmail}
                           onChange={handleInputChange}
-                          placeholder="Your email (optional)"
+                          placeholder="Email*"
+                          required
                           className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
                         />
                         <div className="flex items-center space-x-2">
@@ -596,7 +594,8 @@ const Contact = () => {
                             name="quickMessage"
                             value={formData.quickMessage}
                             onChange={handleInputChange}
-                            placeholder="Quick message..."
+                            placeholder="Quick message*"
+                            required
                             className="w-full px-4 py-3 rounded-xl border bg-[#1C1C1C] border-[#444] text-white"
                           />
                           <motion.button
@@ -631,7 +630,7 @@ const Contact = () => {
                           animate={{ opacity: 1, y: 0 }}
                           className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
                         >
-                          Please enter a message before sending!
+                          Please fill out all required fields!
                         </motion.div>
                       )}
                       {submitStatus === "error_invalid_email" && (
