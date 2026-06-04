@@ -462,7 +462,7 @@ const PodcastSection = () => {
     // Instagram Reels data with local thumbnails
     {
       reelUrl: "https://www.instagram.com/p/DMIm23fPzw1/",
-      thumbnail: "/img/Raghu.jpg",
+      thumbnail: "/img/raghu2.jpg",
       title: "Raghu Ram bro 😎, This is simply Supersome 🤩🙌🏻",
       category: "reel",
     },
