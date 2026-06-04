@@ -461,6 +461,12 @@ const PodcastSection = () => {
     },
     // Instagram Reels data with local thumbnails
     {
+      reelUrl: "https://www.instagram.com/p/DMIm23fPzw1/",
+      thumbnail: "/img/Raghu.jpg",
+      title: "Raghu Ram bro 😎, This is simply Supersome 🤩🙌🏻",
+      category: "reel",
+    },
+    {
       reelUrl: "https://www.instagram.com/reel/DMFmexAT1UO/",
       thumbnail: "/img/Raghu.jpg",
       title: "Watch! Because why should we suffer alone??",
