@@ -461,6 +461,54 @@ const PodcastSection = () => {
     },
     // Instagram Reels data with local thumbnails
     {
+      reelUrl: "https://www.instagram.com/reel/DYOu4xrKyzY/",
+      thumbnail: "/img/me.jpg",
+      title: "Coz, I’m COOL 🤓 CREATIVELY CRAZY",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DTp59JFiT2i/",
+      thumbnail: "/img/walnut.jpg",
+      title: "The Sarkar has spoken. Furniture that commands attention. Sarkar by Walnutz. 👉 Explore the collection",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DP1G7Adj7Ec/",
+      thumbnail: "/img/xiomi.jpg",
+      title: "Raghu & Rajiv thought they had it… They didn’t.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DPVffZqkxHO/",
+      thumbnail: "/img/promo.jpg",
+      title: "This reel is lowkey SUS.",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DNbHMlIPmN0/",
+      thumbnail: "/img/podcast2.jpg",
+      title: "Comedy bites with Govinda of today’s time Devashri Patel ",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DNF0-Hmz1ME/",
+      thumbnail: "/img/mocha.jpg",
+      title: "Nikol, the wait is over! Your favourite Mocha experience is now serving all-veg goodness",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DNEAqvzP9E5/",
+      thumbnail: "/img/podcast.jpg",
+      title: "COMING SOON: A Dose You Didn’t See Coming! 😜💥",
+      category: "reel",
+    },
+    {
+      reelUrl: "https://www.instagram.com/reel/DMR-9Cox34S/",
+      thumbnail: "/img/raghu3.jpg",
+      title: "Yaar isne toh hamein hi nachaa diyaa 🕺🕺#RaghuVox",
+      category: "reel",
+    },
+    {
       reelUrl: "https://www.instagram.com/p/DMIm23fPzw1/",
       thumbnail: "/img/raghu2.jpg",
       title: "Raghu Ram bro 😎, This is simply Supersome 🤩🙌🏻",
