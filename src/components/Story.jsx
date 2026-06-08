@@ -453,6 +453,15 @@ const PodcastSection = () => {
     {
       videoId: "XtUFYzY3sW8",
       episode: "05",
+      title: "The Unbelievable Comeback of India’s Lost Viral Star | Brut Original",
+      description:
+        "If people think I am not good, it’s not my problem.",
+      duration: "14:15",
+      category: "video",
+    },
+    {
+      videoId: "TJrBURHX5Dk",
+      episode: "06",
       title: "Devarshi Patel | Roadies 6 Fame",
       description:
         "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
