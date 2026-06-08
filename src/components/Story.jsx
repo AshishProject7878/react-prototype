@@ -451,7 +451,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
-      videoId: "XtUFYzY3sW8",
+      videoId: "TJrBURHX5Dk",
       episode: "05",
       title: "The Unbelievable Comeback of India’s Lost Viral Star | Brut Original",
       description:
@@ -460,7 +460,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
-      videoId: "TJrBURHX5Dk",
+      videoId: "XtUFYzY3sW8",
       episode: "06",
       title: "Devarshi Patel | Roadies 6 Fame",
       description:
