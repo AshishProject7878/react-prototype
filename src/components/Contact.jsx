@@ -8,9 +8,11 @@ import { FaEnvelope, FaPhone, FaLinkedin, FaInstagram, FaFacebook, FaYoutube } f
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Initialize EmailJS outside the component (best practice)
+emailjs.init("zXth8WQpgEbcMkioG");
+
 const CustomAnimatedTitle = ({ title, containerClass, style }) => {
   const containerRef = useRef(null);
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       const titleAnimation = gsap.timeline({
@@ -21,7 +23,6 @@ const CustomAnimatedTitle = ({ title, containerClass, style }) => {
           toggleActions: "play none none reverse",
         },
       });
-
       titleAnimation.to(
         ".animated-word",
         {
@@ -33,10 +34,8 @@ const CustomAnimatedTitle = ({ title, containerClass, style }) => {
         0
       );
     }, containerRef);
-
     return () => ctx.revert();
   }, []);
-
   return (
     <div ref={containerRef} className={clsx("animated-title", containerClass)} style={style}>
       {React.isValidElement(title) ? (
@@ -70,7 +69,6 @@ const CustomAnimatedTitle = ({ title, containerClass, style }) => {
 const StaggeredText = ({ title, containerClass }) => {
   const titleRef = useRef(null);
   const controls = useAnimation();
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -80,11 +78,9 @@ const StaggeredText = ({ title, containerClass }) => {
       },
       { threshold: 0.3 }
     );
-
     if (titleRef.current) {
       observer.observe(titleRef.current);
     }
-
     return () => observer.disconnect();
   }, [controls]);
 
@@ -100,19 +96,12 @@ const StaggeredText = ({ title, containerClass }) => {
   };
 
   const wordVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-      rotateX: -90,
-    },
+    hidden: { opacity: 0, y: 50, rotateX: -90 },
     visible: {
       opacity: 1,
       y: 0,
       rotateX: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.6, 0.01, 0.05, 0.95],
-      },
+      transition: { duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] },
     },
   };
 
@@ -142,6 +131,7 @@ const Contact = () => {
   const frameRef = useRef(null);
   const formRef = useRef(null);
   const quickMessageRef = useRef(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -151,29 +141,21 @@ const Contact = () => {
     quickMessage: "",
     quickEmail: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
-
-  useEffect(() => {
-    emailjs.init("zXth8WQpgEbcMkioG");
-  }, []);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const element = frameRef.current;
-
     if (!element) return;
-
     const rect = element.getBoundingClientRect();
     const xPos = clientX - rect.left;
     const yPos = clientY - rect.top;
-
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-
     const rotateX = ((yPos - centerY) / centerY) * -5;
     const rotateY = ((xPos - centerX) / centerX) * 5;
-
     element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     element.style.transition = "transform 0.3s ease-out";
   };
@@ -196,6 +178,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
       setSubmitStatus("error_empty");
       setTimeout(() => setSubmitStatus(""), 3000);
@@ -210,16 +193,19 @@ const Contact = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus("");
 
     try {
       await emailjs.send("service_g89gzx8", "template_rq97w1s", {
+        name: formData.name,
         from_name: formData.name,
         from_email: formData.email,
+        reply_to: formData.email,
         phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
-        reply_to: formData.email,
       });
+
       setSubmitStatus("success");
       setFormData({
         name: "",
@@ -231,7 +217,9 @@ const Contact = () => {
         quickEmail: "",
       });
     } catch (error) {
-      console.error("EmailJS error:", error.text || error);
+      console.error("EmailJS Error:", error);
+      console.error("Status:", error.status);
+      console.error("Text:", error.text);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -241,6 +229,7 @@ const Contact = () => {
 
   const handleQuickMessageSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.quickMessage.trim() || !formData.quickEmail.trim()) {
       setSubmitStatus("error_empty");
       setTimeout(() => setSubmitStatus(""), 3000);
@@ -255,20 +244,22 @@ const Contact = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus("");
 
     try {
       await emailjs.send("service_g89gzx8", "template_rq97w1s", {
+        name: "Anonymous",
         from_name: "Anonymous",
         from_email: formData.quickEmail,
+        reply_to: formData.quickEmail,
         subject: "Quick Message from Website",
         message: formData.quickMessage,
-        quick_email: formData.quickEmail,
-        reply_to: formData.quickEmail,
       });
+
       setSubmitStatus("success_quick");
       setFormData((prev) => ({ ...prev, quickMessage: "", quickEmail: "" }));
     } catch (error) {
-      console.error("EmailJS Quick Message error:", error.text || error);
+      console.error("EmailJS Quick Message Error:", error);
       setSubmitStatus("error_quick");
     } finally {
       setIsSubmitting(false);
@@ -281,11 +272,7 @@ const Contact = () => {
     visible: (i) => ({
       opacity: 1,
       y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.6,
-        ease: "easeOut",
-      },
+      transition: { delay: i * 0.1, duration: 0.6, ease: "easeOut" },
     }),
   };
 
@@ -294,10 +281,7 @@ const Contact = () => {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   };
 
@@ -346,6 +330,7 @@ const Contact = () => {
             }}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Contact Info */}
               <div className="space-y-8">
                 <motion.div
                   variants={inputVariants}
@@ -437,6 +422,7 @@ const Contact = () => {
                 </div>
               </div>
 
+              {/* Forms */}
               <div>
                 <motion.form
                   ref={formRef}
@@ -448,20 +434,8 @@ const Contact = () => {
                   <div className="space-y-6">
                     {[
                       { name: "name", label: "Name*", type: "text", placeholder: "John Doe", required: true },
-                      {
-                        name: "email",
-                        label: "Email*",
-                        type: "email",
-                        placeholder: "john@example.com",
-                        required: true,
-                      },
-                      {
-                        name: "phone",
-                        label: "Phone*",
-                        type: "tel",
-                        placeholder: "+91 1234567890",
-                        required: true,
-                      },
+                      { name: "email", label: "Email*", type: "email", placeholder: "john@example.com", required: true },
+                      { name: "phone", label: "Phone*", type: "tel", placeholder: "+91 1234567890", required: true },
                       { name: "subject", label: "Subject*", type: "text", placeholder: "Let's collaborate!", required: true },
                     ].map((field, index) => (
                       <motion.div
@@ -523,6 +497,7 @@ const Contact = () => {
                       )}
                     </motion.button>
 
+                    {/* Status Messages */}
                     {submitStatus === "success" && (
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -562,6 +537,7 @@ const Contact = () => {
                   </div>
                 </motion.form>
 
+                {/* Quick Message */}
                 <motion.div
                   variants={formVariants}
                   initial="hidden"
@@ -624,24 +600,8 @@ const Contact = () => {
                           </motion.button>
                         </div>
                       </div>
-                      {submitStatus === "error_empty" && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
-                        >
-                          Please fill out all required fields!
-                        </motion.div>
-                      )}
-                      {submitStatus === "error_invalid_email" && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="p-4 rounded-xl text-center font-medium text-[#FF4C29] border border-[#FF4C29] bg-[#1C1C1C] mt-4"
-                        >
-                          Please enter a valid email address!
-                        </motion.div>
-                      )}
+
+                      {/* Quick Message Status */}
                       {submitStatus === "success_quick" && (
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
