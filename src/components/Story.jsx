@@ -415,7 +415,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "qWM9GSJToNs",
-      episode: "01",
+      episode: "02",
       title: "Raghu - Rajiv vs Devarshi",
       description:
         "ENOUGH!!! For close to 17 years, you all have hounded us about our Devarshi audition! So now we've decided to have a round 2 of this epic interview, just for you",
@@ -424,7 +424,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "yb5tS8KGltk",
-      episode: "02",
+      episode: "03",
       title: "Roadies Audition, Life, Journey",
       description:
         "In this exciting episode, we sit down with Devarshi Patel—entertainer, and former contestant on MTV’s iconic show Roadies.",
@@ -433,7 +433,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "GmSJ76YUI3o",
-      episode: "03",
+      episode: "04",
       title: "THE RETURN OF DEVARSHI PATEL",
       description:
         "Devarshi Patel, is an ex Roadies contestant. The man with the most entertaining, viral and remembered Roadies Audition is back with his Motivational talks.",
@@ -490,7 +490,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "BYjO5virVUk",
-      episode: "04",
+      episode: "05",
       title: "STAGE FEAR, CONFIDENCE ...",
       description:
         "Devarshi Patel: રોડીઝ લિજેન્ડની જર્નીરોડીઝના જાણીતા સ્પર્ધક દેવર્ષિ પટેલને દર્શાવતા મનમોહક એપિસોડ માટે અમારી સાથે જોડાઓ, જેમણે શો અને દર્શકોના હૃદય પર અમીટ છાપ છોડી દીધી છે. ",
@@ -499,7 +499,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "TJrBURHX5Dk",
-      episode: "05",
+      episode: "06",
       title: "The Unbelievable Comeback of India’s Lost Viral Star | Brut Original",
       description: "If people think I am not good, it’s not my problem.",
       duration: "14:15",
@@ -507,7 +507,7 @@ const PodcastSection = () => {
     },
     {
       videoId: "XtUFYzY3sW8",
-      episode: "06",
+      episode: "07",
       title: "Devarshi Patel | Roadies 6 Fame",
       description:
         "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
