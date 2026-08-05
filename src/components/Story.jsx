@@ -727,7 +727,7 @@ const PodcastSection = () => {
               <h3 className="text-2xl font-bold text-white mb-8 text-center">
                 Videos
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {videos.map((podcast, index) => (
                   <motion.div
                     key={index}
