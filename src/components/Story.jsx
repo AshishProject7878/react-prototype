@@ -77,7 +77,9 @@ const StaggeredText = ({ title, containerClass }) => {
 // Video Card Component
 const VideoCard = ({ podcast, index }) => {
   const cardRef = useRef(null);
+  const videoRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
@@ -96,6 +98,13 @@ const VideoCard = ({ podcast, index }) => {
       cardRef.current.style.transform =
         "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     }
+  };
+
+  const handleVideoError = (e) => {
+    // Surface the real reason a Cloudinary/self-hosted video fails to load
+    // instead of just leaving a blank box in the UI.
+    console.error("Video failed to load:", podcast.videoUrl, e?.target?.error);
+    setVideoError(true);
   };
 
   return (
@@ -123,20 +132,50 @@ const VideoCard = ({ podcast, index }) => {
       <div className="relative backdrop-blur-xl rounded-2xl p-4 flex flex-col h-full">
         {/* Media container with absolute fill for reliable sizing */}
         <motion.div
-          className="relative rounded-xl overflow-hidden mb-4 aspect-[16/9] flex-shrink-0 w-full"
+          className="relative rounded-xl overflow-hidden mb-4 aspect-[16/9] flex-shrink-0 w-full bg-black"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
         >
           {podcast.videoUrl ? (
-            <video
-              src={podcast.videoUrl}
-              poster={podcast.poster}
-              title={podcast.title}
-              className="absolute inset-0 w-full h-full object-cover"
-              controls
-              playsInline
-              preload="metadata"
-            />
+            videoError ? (
+              // Fallback shown if the video genuinely fails to load (bad URL,
+              // network/CORS issue, unsupported format, etc). This makes the
+              // failure visible instead of an empty box.
+              <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-2 text-center px-3">
+                {podcast.poster ? (
+                  <img
+                    src={podcast.poster}
+                    alt={podcast.title}
+                    className="absolute inset-0 w-full h-full object-cover opacity-40"
+                  />
+                ) : null}
+                <p className="relative text-xs text-gray-300 z-10">
+                  Video unavailable right now.
+                </p>
+                <a
+                  href={podcast.videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 text-xs underline text-white"
+                >
+                  Open video directly
+                </a>
+              </div>
+            ) : (
+              <video
+                ref={videoRef}
+                poster={podcast.poster}
+                title={podcast.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                controls
+                playsInline
+                preload="auto"
+                onError={handleVideoError}
+              >
+                <source src={podcast.videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )
           ) : (
             <iframe
               src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
@@ -406,6 +445,7 @@ const PodcastSection = () => {
   const podcasts = [
     // Cloudinary video placed first so it is immediately visible
     {
+      id: "cloudinary-raghu-reacts",
       videoUrl:
         "https://res.cloudinary.com/dv8i6ucg1/video/upload/v1785949157/RAGHU_REACTS_TO_ROADIES_MEMES_-_Tanmay_Bhat_720p_h264_online-video-cutter.com_nfpmoc.mp4",
       poster:
@@ -417,6 +457,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
+      id: "yt-qWM9GSJToNs",
       videoId: "qWM9GSJToNs",
       episode: "01",
       title: "Raghu - Rajiv vs Devarshi",
@@ -426,6 +467,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
+      id: "yt-yb5tS8KGltk",
       videoId: "yb5tS8KGltk",
       episode: "02",
       title: "Roadies Audition, Life, Journey",
@@ -435,6 +477,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
+      id: "yt-GmSJ76YUI3o",
       videoId: "GmSJ76YUI3o",
       episode: "03",
       title: "THE RETURN OF DEVARSHI PATEL",
@@ -443,55 +486,35 @@ const PodcastSection = () => {
       duration: "55:22",
       category: "video",
     },
+    { id: "short-XQlj1U-nimo", videoId: "XQlj1U-nimo", title: "Raghu - Rajiv vs Devarshi 2", category: "short" },
+    { id: "short-9Mvx8nGOdDY", videoId: "9Mvx8nGOdDY", title: "How Accent Helped Devarshi In Roadies!!", category: "short" },
+    { id: "short-OG7OOgJfBJE", videoId: "OG7OOgJfBJE", title: "Devarshi Performs his ICONIC Govinda Govinda", category: "short" },
+    { id: "short-VWVa2HU5mk4", videoId: "VWVa2HU5mk4", title: "Devarshi Is Rocking On Rockon Song ", category: "short" },
+    { id: "short-fnevoGW25FE", videoId: "fnevoGW25FE", title: "Devarshi Patel Podcast (Roadies Fame)", category: "short" },
     {
-      videoId: "XQlj1U-nimo",
-      title: "Raghu - Rajiv vs Devarshi 2",
-      category: "short",
-    },
-    {
-      videoId: "9Mvx8nGOdDY",
-      title: "How Accent Helped Devarshi In Roadies!!",
-      category: "short",
-    },
-    {
-      videoId: "OG7OOgJfBJE",
-      title: "Devarshi Performs his ICONIC Govinda Govinda",
-      category: "short",
-    },
-    {
-      videoId: "VWVa2HU5mk4",
-      title: "Devarshi Is Rocking On Rockon Song ",
-      category: "short",
-    },
-    {
-      videoId: "fnevoGW25FE",
-      title: "Devarshi Patel Podcast (Roadies Fame)",
-      category: "short",
-    },
-    {
+      id: "short-eta5w6tq8P8",
       videoId: "eta5w6tq8P8",
       title:
         "Devarshi Patel from Roadies 6 with a very inspirational and motivational message",
       category: "short",
     },
+    { id: "short-lmsmMd_8N4s", videoId: "lmsmMd_8N4s", title: "No One can Replace Devarshi | Raghu Ram", category: "short" },
     {
-      videoId: "lmsmMd_8N4s",
-      title: "No One can Replace Devarshi | Raghu Ram",
-      category: "short",
-    },
-    {
+      id: "short-RsM5vrrBiTU",
       videoId: "RsM5vrrBiTU",
       title:
         "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
       category: "short",
     },
     {
+      id: "short-sQA8zxSZkh8",
       videoId: "sQA8zxSZkh8",
       title:
         "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
       category: "short",
     },
     {
+      id: "yt-BYjO5virVUk",
       videoId: "BYjO5virVUk",
       episode: "04",
       title: "STAGE FEAR, CONFIDENCE ...",
@@ -501,6 +524,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
+      id: "yt-TJrBURHX5Dk",
       videoId: "TJrBURHX5Dk",
       episode: "05",
       title: "The Unbelievable Comeback of India’s Lost Viral Star | Brut Original",
@@ -509,6 +533,7 @@ const PodcastSection = () => {
       category: "video",
     },
     {
+      id: "yt-XtUFYzY3sW8",
       videoId: "XtUFYzY3sW8",
       episode: "06",
       title: "Devarshi Patel | Roadies 6 Fame",
@@ -519,12 +544,14 @@ const PodcastSection = () => {
     },
     // Instagram Reels data with local thumbnails
     {
+      id: "reel-DYOu4xrKyzY",
       reelUrl: "https://www.instagram.com/reel/DYOu4xrKyzY/",
       thumbnail: "/img/me.jpg",
       title: "Coz, I’m COOL 🤓 CREATIVELY CRAZY",
       category: "reel",
     },
     {
+      id: "reel-DTp59JFiT2i",
       reelUrl: "https://www.instagram.com/reel/DTp59JFiT2i/",
       thumbnail: "/img/walnut.jpg",
       title:
@@ -532,24 +559,28 @@ const PodcastSection = () => {
       category: "reel",
     },
     {
+      id: "reel-DP1G7Adj7Ec",
       reelUrl: "https://www.instagram.com/reel/DP1G7Adj7Ec/",
       thumbnail: "/img/xiomi.jpg",
       title: "Raghu & Rajiv thought they had it… They didn’t.",
       category: "reel",
     },
     {
+      id: "reel-DPVffZqkxHO",
       reelUrl: "https://www.instagram.com/reel/DPVffZqkxHO/",
       thumbnail: "/img/promo.jpg",
       title: "This reel is lowkey SUS.",
       category: "reel",
     },
     {
+      id: "reel-DNbHMlIPmN0",
       reelUrl: "https://www.instagram.com/reel/DNbHMlIPmN0/",
       thumbnail: "/img/podcast2.jpg",
       title: "Comedy bites with Govinda of today’s time Devashri Patel ",
       category: "reel",
     },
     {
+      id: "reel-DNF0-Hmz1ME",
       reelUrl: "https://www.instagram.com/reel/DNF0-Hmz1ME/",
       thumbnail: "/img/mocha.jpg",
       title:
@@ -557,72 +588,84 @@ const PodcastSection = () => {
       category: "reel",
     },
     {
+      id: "reel-DNEAqvzP9E5",
       reelUrl: "https://www.instagram.com/reel/DNEAqvzP9E5/",
       thumbnail: "/img/podcast.jpg",
       title: "COMING SOON: A Dose You Didn’t See Coming! 😜💥",
       category: "reel",
     },
     {
+      id: "reel-DMR-9Cox34S",
       reelUrl: "https://www.instagram.com/reel/DMR-9Cox34S/",
       thumbnail: "/img/raghu3.jpg",
       title: "Yaar isne toh hamein hi nachaa diyaa 🕺🕺#RaghuVox",
       category: "reel",
     },
     {
+      id: "reel-DMIm23fPzw1",
       reelUrl: "https://www.instagram.com/p/DMIm23fPzw1/",
       thumbnail: "/img/raghu2.jpg",
       title: "Raghu Ram bro 😎, This is simply Supersome 🤩🙌🏻",
       category: "reel",
     },
     {
+      id: "reel-DMFmexAT1UO",
       reelUrl: "https://www.instagram.com/reel/DMFmexAT1UO/",
       thumbnail: "/img/Raghu.jpg",
       title: "Watch! Because why should we suffer alone??",
       category: "reel",
     },
     {
+      id: "reel-DL0ACHGhKWr",
       reelUrl: "https://www.instagram.com/reel/DL0ACHGhKWr/",
       thumbnail: "/img/reel-1.jpg",
       title: "How Accent Helped Devarshi In Roadies!!",
       category: "reel",
     },
     {
+      id: "reel-DLwbOIjBgWI",
       reelUrl: "https://www.instagram.com/reel/DLwbOIjBgWI/",
       thumbnail: "/img/reel-2.jpg",
       title: "Devarshi's Roadies Accent Story!!",
       category: "reel",
     },
     {
+      id: "reel-DLsIsZXBZ0s",
       reelUrl: "https://www.instagram.com/reel/DLsIsZXBZ0s/",
       thumbnail: "/img/reel-3.jpg",
       title: "Devarshi's Roadies Journey!!",
       category: "reel",
     },
     {
+      id: "reel-DLpn8VLNdHH",
       reelUrl: "https://www.instagram.com/reel/DLpn8VLNdHH/",
       thumbnail: "/img/reel-4.jpg",
       title: "Accent Tips from Devarshi!!",
       category: "reel",
     },
     {
+      id: "reel-DLmEMihtB5f",
       reelUrl: "https://www.instagram.com/reel/DLmEMihtB5f/",
       thumbnail: "/img/reel-5.jpg",
       title: "Devarshi's Roadies Motivation!!",
       category: "reel",
     },
     {
+      id: "reel-DLPua0WMAjK",
       reelUrl: "https://www.instagram.com/reel/DLPua0WMAjK/",
       thumbnail: "/img/buddy.jpg",
       title: "Devarshi and Friends on Roadies!!",
       category: "reel",
     },
     {
+      id: "reel-DLNdYP_vCkd",
       reelUrl: "https://www.instagram.com/reel/DLNdYP_vCkd/",
       thumbnail: "/img/travel.jpg",
       title: "Devarshi's Roadies Adventures!!",
       category: "reel",
     },
     {
+      id: "reel-DI4VQ7oMlwI",
       reelUrl: "https://www.instagram.com/reel/DI4VQ7oMlwI/",
       thumbnail: "/img/dance.jpg",
       title: "Devarshi's Roadies Dance Moves!!",
@@ -723,7 +766,7 @@ const PodcastSection = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
                 {videos.map((podcast, index) => (
                   <motion.div
-                    key={index}
+                    key={podcast.id || index}
                     className="rounded-2xl overflow-hidden flex items-center justify-center"
                   >
                     <VideoCard podcast={podcast} index={index} />
@@ -747,7 +790,7 @@ const PodcastSection = () => {
               <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
                 {shorts.map((podcast, index) => (
                   <motion.div
-                    key={index}
+                    key={podcast.id || index}
                     className="rounded-3xl overflow-hidden flex items-center justify-center"
                   >
                     <ShortCard podcast={podcast} index={index} />
@@ -771,7 +814,7 @@ const PodcastSection = () => {
               <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
                 {reels.map((reel, index) => (
                   <motion.div
-                    key={index}
+                    key={reel.id || index}
                     className="rounded-3xl overflow-hidden flex items-center justify-center"
                   >
                     <ReelCard reel={reel} index={index} />
