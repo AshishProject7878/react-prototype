@@ -121,27 +121,27 @@ const VideoCard = ({ podcast, index }) => {
       }}
     >
       <div className="relative backdrop-blur-xl rounded-2xl p-4 flex flex-col h-full">
+        {/* Media container with absolute fill for reliable sizing */}
         <motion.div
-          className="rounded-xl overflow-hidden mb-4 aspect-[16/9] flex-shrink-0 w-full"
+          className="relative rounded-xl overflow-hidden mb-4 aspect-[16/9] flex-shrink-0 w-full"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
         >
           {podcast.videoUrl ? (
-            // Cloudinary (or any direct video URL)
             <video
               src={podcast.videoUrl}
+              poster={podcast.poster}
               title={podcast.title}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               controls
               playsInline
               preload="metadata"
             />
           ) : (
-            // YouTube embed
             <iframe
               src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
               title={podcast.title}
-              className="w-full h-full"
+              className="absolute inset-0 w-full h-full"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -404,6 +404,18 @@ const PodcastSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   const podcasts = [
+    // Cloudinary video placed first so it is immediately visible
+    {
+      videoUrl:
+        "https://res.cloudinary.com/dv8i6ucg1/video/upload/v1785949157/RAGHU_REACTS_TO_ROADIES_MEMES_-_Tanmay_Bhat_720p_h264_online-video-cutter.com_nfpmoc.mp4",
+      poster:
+        "https://res.cloudinary.com/dv8i6ucg1/video/upload/so_0,w_640,h_360,c_fill/v1785949157/RAGHU_REACTS_TO_ROADIES_MEMES_-_Tanmay_Bhat_720p_h264_online-video-cutter.com_nfpmoc.jpg",
+      title: "Raghu Reacts to Roadies Memes - Tanmay Bhat",
+      description:
+        "Raghu reacts to classic Roadies memes in this exclusive cut featuring Tanmay Bhat.",
+      duration: "Video",
+      category: "video",
+    },
     {
       videoId: "qWM9GSJToNs",
       episode: "01",
@@ -503,16 +515,6 @@ const PodcastSection = () => {
       description:
         "This is the 6th Episode of our new series, Ek Mulaqat which we have begun to give platform and encouragement to new and emerging talents.",
       duration: "28:00",
-      category: "video",
-    },
-    // Cloudinary-hosted video
-    {
-      videoUrl:
-        "https://res.cloudinary.com/dv8i6ucg1/video/upload/v1785949157/RAGHU_REACTS_TO_ROADIES_MEMES_-_Tanmay_Bhat_720p_h264_online-video-cutter.com_nfpmoc.mp4",
-      title: "Raghu Reacts to Roadies Memes - Tanmay Bhat",
-      description:
-        "Raghu reacts to classic Roadies memes in this exclusive cut featuring Tanmay Bhat.",
-      duration: "Video",
       category: "video",
     },
     // Instagram Reels data with local thumbnails
