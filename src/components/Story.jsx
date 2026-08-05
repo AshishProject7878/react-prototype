@@ -67,7 +67,7 @@ const StaggeredText = ({ title, containerClass }) => {
             fontWeight: "900",
           }}
         >
-          {word} 
+          {word}&nbsp;
         </motion.span>
       ))}
     </motion.div>
@@ -93,7 +93,8 @@ const VideoCard = ({ podcast, index }) => {
 
   const handleMouseLeave = () => {
     if (cardRef.current) {
-      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+      cardRef.current.style.transform =
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     }
   };
 
@@ -103,7 +104,11 @@ const VideoCard = ({ podcast, index }) => {
       className="video-card relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg h-[450px] lg:h-[400px] max-w-[400px] lg:max-w-[450px] mx-auto"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: [0.6, 0.01, 0.05, 0.95],
+      }}
       viewport={{ once: true, amount: 0.3 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -121,15 +126,29 @@ const VideoCard = ({ podcast, index }) => {
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
         >
-          <iframe
-            src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
-            title={podcast.title}
-            className="w-full h-full"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          {podcast.videoUrl ? (
+            // Cloudinary (or any direct video URL)
+            <video
+              src={podcast.videoUrl}
+              title={podcast.title}
+              className="w-full h-full object-cover"
+              controls
+              playsInline
+              preload="metadata"
+            />
+          ) : (
+            // YouTube embed
+            <iframe
+              src={`https://www.youtube.com/embed/${podcast.videoId}?rel=0&modestbranding=1`}
+              title={podcast.title}
+              className="w-full h-full"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
         </motion.div>
+
         <motion.div
           className="flex-grow min-h-[120px]"
           initial={{ opacity: 0, y: 20 }}
@@ -144,6 +163,7 @@ const VideoCard = ({ podcast, index }) => {
             {podcast.description}
           </p>
         </motion.div>
+
         <motion.div
           className="flex items-center justify-between text-xs text-gray-500 mt-2"
           initial={{ opacity: 0 }}
@@ -153,10 +173,11 @@ const VideoCard = ({ podcast, index }) => {
         >
           <span className="flex items-center space-x-1">
             <span>🎧</span>
-            <span>{podcast.duration}</span>
+            <span>{podcast.duration || "Video"}</span>
           </span>
           <span>Video</span>
         </motion.div>
+
         <motion.div
           className="absolute inset-0 bg-white/5 opacity-0 rounded-2xl pointer-events-none"
           animate={{ opacity: isHovered ? 1 : 0 }}
@@ -186,7 +207,8 @@ const ShortCard = ({ podcast, index }) => {
 
   const handleMouseLeave = () => {
     if (cardRef.current) {
-      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+      cardRef.current.style.transform =
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     }
   };
 
@@ -196,7 +218,11 @@ const ShortCard = ({ podcast, index }) => {
       className="short-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[400px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: [0.6, 0.01, 0.05, 0.95],
+      }}
       viewport={{ once: true, amount: 0.3 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -223,6 +249,7 @@ const ShortCard = ({ podcast, index }) => {
             allowFullScreen
           />
         </motion.div>
+
         <motion.div
           className="flex-grow min-h-[80px]"
           initial={{ opacity: 0, y: 20 }}
@@ -237,6 +264,7 @@ const ShortCard = ({ podcast, index }) => {
             {podcast.description}
           </p>
         </motion.div>
+
         <motion.div
           className="flex items-center justify-between text-[10px] text-gray-500 mt-1"
           initial={{ opacity: 0 }}
@@ -246,6 +274,7 @@ const ShortCard = ({ podcast, index }) => {
         >
           <span>Short</span>
         </motion.div>
+
         <motion.div
           className="absolute inset-0 bg-white/5 opacity-0 rounded-3xl pointer-events-none"
           animate={{ opacity: isHovered ? 1 : 0 }}
@@ -275,11 +304,11 @@ const ReelCard = ({ reel, index }) => {
 
   const handleMouseLeave = () => {
     if (cardRef.current) {
-      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+      cardRef.current.style.transform =
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
     }
   };
 
-  // Fallback thumbnail if none provided
   const thumbnailUrl = reel.thumbnail || "/img/fallback.jpg";
 
   return (
@@ -288,7 +317,11 @@ const ReelCard = ({ reel, index }) => {
       className="reel-card relative group cursor-pointer overflow-hidden rounded-3xl shadow-lg h-[630px] sm:h-[400px] w-full sm:w-[200px] lg:max-w-[225px] flex-shrink-0"
       initial={{ opacity: 0, y: 100, rotateX: -45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: [0.6, 0.01, 0.05, 0.95],
+      }}
       viewport={{ once: true, amount: 0.3 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -323,6 +356,7 @@ const ReelCard = ({ reel, index }) => {
             </div>
           </a>
         </motion.div>
+
         <motion.div
           className="flex-grow min-h-[80px]"
           initial={{ opacity: 0, y: 20 }}
@@ -337,6 +371,7 @@ const ReelCard = ({ reel, index }) => {
             {reel.description}
           </p>
         </motion.div>
+
         <motion.div
           className="flex items-center justify-between text-[10px] text-gray-500 mt-1"
           initial={{ opacity: 0 }}
@@ -346,6 +381,7 @@ const ReelCard = ({ reel, index }) => {
         >
           <span>Reel</span>
         </motion.div>
+
         <motion.div
           className="absolute inset-0 bg-white/5 opacity-0 rounded-3xl pointer-events-none"
           animate={{ opacity: isHovered ? 1 : 0 }}
@@ -364,7 +400,6 @@ const PodcastSection = () => {
     offset: ["start end", "end start"],
   });
   const [activeTab, setActiveTab] = useState("videos");
-
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
@@ -423,7 +458,8 @@ const PodcastSection = () => {
     },
     {
       videoId: "eta5w6tq8P8",
-      title: "Devarshi Patel from Roadies 6 with a very inspirational and motivational message",
+      title:
+        "Devarshi Patel from Roadies 6 with a very inspirational and motivational message",
       category: "short",
     },
     {
@@ -433,12 +469,14 @@ const PodcastSection = () => {
     },
     {
       videoId: "RsM5vrrBiTU",
-      title: "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
+      title:
+        "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
       category: "short",
     },
     {
       videoId: "sQA8zxSZkh8",
-      title: "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
+      title:
+        "Devarshi Patel from Roadies 6.0 has a very important and inspirational message for the viewers",
       category: "short",
     },
     {
@@ -454,8 +492,7 @@ const PodcastSection = () => {
       videoId: "TJrBURHX5Dk",
       episode: "05",
       title: "The Unbelievable Comeback of India’s Lost Viral Star | Brut Original",
-      description:
-        "If people think I am not good, it’s not my problem.",
+      description: "If people think I am not good, it’s not my problem.",
       duration: "14:15",
       category: "video",
     },
@@ -468,6 +505,16 @@ const PodcastSection = () => {
       duration: "28:00",
       category: "video",
     },
+    // Cloudinary-hosted video
+    {
+      videoUrl:
+        "https://res.cloudinary.com/dv8i6ucg1/video/upload/v1785949157/RAGHU_REACTS_TO_ROADIES_MEMES_-_Tanmay_Bhat_720p_h264_online-video-cutter.com_nfpmoc.mp4",
+      title: "Raghu Reacts to Roadies Memes - Tanmay Bhat",
+      description:
+        "Raghu reacts to classic Roadies memes in this exclusive cut featuring Tanmay Bhat.",
+      duration: "Video",
+      category: "video",
+    },
     // Instagram Reels data with local thumbnails
     {
       reelUrl: "https://www.instagram.com/reel/DYOu4xrKyzY/",
@@ -478,7 +525,8 @@ const PodcastSection = () => {
     {
       reelUrl: "https://www.instagram.com/reel/DTp59JFiT2i/",
       thumbnail: "/img/walnut.jpg",
-      title: "The Sarkar has spoken. Furniture that commands attention. Sarkar by Walnutz. 👉 Explore the collection",
+      title:
+        "The Sarkar has spoken. Furniture that commands attention. Sarkar by Walnutz. 👉 Explore the collection",
       category: "reel",
     },
     {
@@ -502,7 +550,8 @@ const PodcastSection = () => {
     {
       reelUrl: "https://www.instagram.com/reel/DNF0-Hmz1ME/",
       thumbnail: "/img/mocha.jpg",
-      title: "Nikol, the wait is over! Your favourite Mocha experience is now serving all-veg goodness",
+      title:
+        "Nikol, the wait is over! Your favourite Mocha experience is now serving all-veg goodness",
       category: "reel",
     },
     {
@@ -618,8 +667,9 @@ const PodcastSection = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Dive deep into conversations about storytelling, branding, and digital innovation.
-              Each episode brings fresh insights and actionable strategies from industry leaders.
+              Dive deep into conversations about storytelling, branding, and
+              digital innovation. Each episode brings fresh insights and
+              actionable strategies from industry leaders.
             </motion.p>
           </motion.div>
 
@@ -665,7 +715,9 @@ const PodcastSection = () => {
               transition={{ duration: 0.5 }}
               className="mb-16"
             >
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Videos</h3>
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">
+                Videos
+              </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
                 {videos.map((podcast, index) => (
                   <motion.div
@@ -687,7 +739,9 @@ const PodcastSection = () => {
               transition={{ duration: 0.5 }}
               className="mb-16"
             >
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Shorts</h3>
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">
+                Shorts
+              </h3>
               <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
                 {shorts.map((podcast, index) => (
                   <motion.div
@@ -709,7 +763,9 @@ const PodcastSection = () => {
               transition={{ duration: 0.5 }}
               className="mb-16"
             >
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Reels</h3>
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">
+                Reels
+              </h3>
               <div className="flex flex-col gap-6 sm:grid sm:grid-cols-3 lg:grid-cols-5 auto-rows-[400px]">
                 {reels.map((reel, index) => (
                   <motion.div
