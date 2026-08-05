@@ -405,15 +405,6 @@ const PodcastSection = () => {
 
   const podcasts = [
     {
-      videoId: "UrW19xffEUk",
-      episode: "01",
-      title: "RAGHU REACTS TO ROADIES MEMES",
-      description:
-        "Catch the panel live",
-      duration: "28:26",
-      category: "video",
-    },
-    {
       videoId: "qWM9GSJToNs",
       episode: "02",
       title: "Raghu - Rajiv vs Devarshi",
